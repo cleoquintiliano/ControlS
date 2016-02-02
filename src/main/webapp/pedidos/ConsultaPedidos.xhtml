@@ -5,54 +5,78 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="titulo">Consulta produtos</ui:define>
+	<ui:define name="titulo">Consulta de pedidos</ui:define>
 
 	<ui:define name="corpo">
 		<h:form>
-			<h1>Novo Produto</h1>
+			<h1>Consulta de pedidos</h1>
 			
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:commandButton value="Consultar"/>
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
-					<p:button value="Novo" outcome="/produtos/CadastroProduto"/>
+					<p:button value="Novo" />
 				</p:toolbarGroup>
 			</p:toolbar>
 			
 			<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
 				columnClasses="rotulo, campo" >
-				<p:outputLabel value="SKU" for="sku"/>
-				<p:inputText id="sku" size="20" />
+				<p:outputLabel value="Número" />
+				<h:panelGroup>
+					<p:inputText size="10" />
+					a
+					<p:inputText size="10" />
+				</h:panelGroup>
 				
-				<p:outputLabel value="Nome" for="nome"/>
-				<p:inputText id="nome" size="60" />
+				<p:outputLabel value="Data de criação" />
+				<h:panelGroup>
+					<p:calendar size="10" pattern="dd/MM/yyyy"/>
+					a
+					<p:calendar size="10" pattern="dd/MM/yyyy"/>
+				</h:panelGroup>
+				
+				
+				<p:outputLabel value="Vendedor"/>
+				<p:inputText size="40" />
+				
+				<p:outputLabel value="Cliente"/>
+				<p:inputText size="40" />
+				
+				<p:outputLabel value="Status"/>
+				<p:selectManyCheckbox>
+					<f:selectItem itemLabel="Orçamento"/>
+					<f:selectItem itemLabel="Emitido"/>
+					<f:selectItem itemLabel="Cancelado"/>
+				</p:selectManyCheckbox>
 			</p:panelGrid>
 			
-			<p:dataTable id="produtosTable" value="#{consultaProdutosBean.produtosFiltrados}"
-				var="produto" style="margin-top: 20px" emptyMessage="Nenhum produto encontrado."
+			<p:dataTable id="pedidosTable" value="#{consultaPedidosBean.pedidosFiltrados}" var="pedido"
+				style="margin-top: 20px" emptyMessage="Nenhum pedido encontrado."
 				rows="20" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
-				<p:column headerText="SKU" style="text-align: center; width: 100px" >
-					<h:outputText value="123"/>
+				<p:column headerText="Número" style="text-align: center; width: 100px">
+					<h:outputText value="12345" />
 				</p:column>
-				<p:column headerText="Descrição">
-					<h:outputText value="Notebook Sony Vaio"/>
+				<p:column headerText="Cliente">
+					<h:outputText value="Supermercado da Turma da Monica" />
 				</p:column>
-				<p:column headerText="Categoria" style="width: 250px" >
-					<h:outputText value="Computadores - Notebooks"/>
+				<p:column headerText="Vendedor">
+					<h:outputText value="João da Silva Sauro" />
 				</p:column>
-				<p:column headerText="Valor unitário" style="text-align: right; width: 120px" >
-					<h:outputText value="R$ 1.500,00"/>
+				<p:column headerText="Data de criação" style="text-align: center; width: 140px">
+					<h:outputText value="15/07/2015" />
 				</p:column>
-				<p:column headerText="Estoque" style="text-align: center; width: 100px" >
-					<h:outputText value="98"/>
+				<p:column headerText="Valor total" style="text-align: right; width: 120px">
+					<h:outputText value="R$ 1.230,56" />
 				</p:column>
-				<p:column style="width: 100px; text-align: center" >
+				<p:column headerText="Status" style="width: 100px">
+					<h:outputText value="Emitido"/>
+				</p:column>
+				<p:column style="text-align: center; width: 50px">
 					<p:button icon="ui-icon-pencil" title="Editar"/>
-					<p:commandButton icon="ui-icon-trash" title="Excluir"/>
 				</p:column>
-				
 			</p:dataTable>
+			
 		</h:form>
 	</ui:define>
 </ui:composition>
