@@ -8,7 +8,7 @@
 	<ui:define name="titulo">Novo usuário</ui:define>
 
 	<ui:define name="corpo">
-		<h1>Novo Usuário</h1>
+		<h1>Novo usuário</h1>
 		
 		<p:toolbar style="margin-top: 20px">
 			<p:toolbarGroup>
@@ -39,6 +39,28 @@
 			<p:password id="confirmacaoSenha" />
 			
 		</p:panelGrid>
+		
+		<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+			columnClasses="rotulo">	
+			<p:selectOneMenu >
+			     <f:selectItem itemLabel="Administradores"/>
+			     <f:selectItem itemLabel="Auxiliares"/>
+			     <f:selectItem itemLabel="Vendedores"/>
+			</p:selectOneMenu>
+			<p:commandButton value="Adicionar grupo" style="height: 25px"/>
+		</p:panelGrid>
+		
+		<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
+				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
+				rows="2" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+				<p:column headerText="Grupo" style="text-align: left">
+					<h:outputText value="Administradores"/>
+				</p:column>
+		
+				<p:column style="width: 50px; text-align: center" >
+					<p:commandButton icon="ui-icon-trash" title="Excluir"/>
+				</p:column>
+			</p:dataTable>	
 		
 	</ui:define>
 </ui:composition>
