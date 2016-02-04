@@ -32,12 +32,32 @@
 				<f:selectItem itemLabel="Juridica" itemValue="Juridica" />
 			</p:selectOneRadio>
 			
-			<p:outputLabel value="CNPJ/CPF" for="cnpj"/>
+			<p:outputLabel value="CPF/CNPJ" for="cnpj"/>
 			<p:inputMask id="cnpj" mask="99.999.999/9999-99" />
 			
 			<p:outputLabel value="E-mail" for="email"/>
 			<p:inputText id="email" size="40" maxlength="40"/>
 		</p:panelGrid>
+		
+		<p:commandButton value="Adicionar endereço" style="margin-top: 20px" />
+		
+		<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
+				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
+				rows="2" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+				<p:column headerText="Nome" style="width: 800px" >
+					<h:outputText value="Carlos Alberto de Nobrega"/>
+				</p:column>
+				<p:column headerText="Tipo" style="width: 100px" >
+					<h:outputText value="Fisica"/>
+				</p:column>
+				<p:column headerText="CPF/CNPJ">
+					<h:outputText value="045.555.222-22"/>
+				</p:column>
+				<p:column style="width: 100px; text-align: center" >
+					<p:button icon="ui-icon-pencil" title="Editar"/>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"/>
+				</p:column>
+			</p:dataTable>
 		
 	</ui:define>
 </ui:composition>
