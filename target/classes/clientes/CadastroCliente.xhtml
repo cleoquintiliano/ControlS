@@ -44,14 +44,20 @@
 		<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
 				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
 				rows="2" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
-				<p:column headerText="Nome" style="width: 800px" >
-					<h:outputText value="Carlos Alberto de Nobrega"/>
+				<p:column headerText="Logradouro">
+					<h:outputText value="Rua Florida"/>
 				</p:column>
-				<p:column headerText="Tipo" style="width: 100px" >
-					<h:outputText value="Fisica"/>
+				<p:column headerText="Número" style="width: 100px" >
+					<h:outputText value="1234"/>
 				</p:column>
-				<p:column headerText="CPF/CNPJ">
-					<h:outputText value="045.555.222-22"/>
+				<p:column headerText="Complemento" style="width: 200px">
+					<h:outputText value="Sala 456"/>
+				</p:column>
+				<p:column headerText="CEP" style="width: 150px" >
+					<h:outputText value="86040-960"/>
+				</p:column>
+				<p:column headerText="Cidade/UF" style="width: 250px">
+					<h:outputText value="Londrina/PR"/>
 				</p:column>
 				<p:column style="width: 100px; text-align: center" >
 					<p:button icon="ui-icon-pencil" title="Editar"/>
