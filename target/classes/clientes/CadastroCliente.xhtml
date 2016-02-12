@@ -4,11 +4,19 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
-
+    
 	<ui:define name="titulo">Novo cliente</ui:define>
 
 	<ui:define name="corpo">
 		<h1>Novo Cliente</h1>
+		
+		<script>
+		function tratarInclusaoEndereco(args) {
+			if (!args.validationFailed) {
+				inclusaoEnderecoDialog.hide();
+			}
+		}
+		</script>
 		
 		<p:toolbar style="margin-top: 20px">
 			<p:toolbarGroup>
@@ -39,7 +47,8 @@
 			<p:inputText id="email" size="40" maxlength="40"/>
 		</p:panelGrid>
 		
-		<p:commandButton value="Adicionar endereço" style="margin-top: 20px" />
+		<p:commandButton value="Adicionar endereço" onclick="inclusaoEnderecoDialog.show(); return false;"
+			style="margin-top: 20px" />
 		
 		<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
 				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
@@ -64,6 +73,23 @@
 					<p:commandButton icon="ui-icon-trash" title="Excluir"/>
 				</p:column>
 			</p:dataTable>
+			
+			<p:dialog header="Inclusão de endereço" widgetVar="inclusaoEnderecoDialog"
+				modal="true" resizable="false">
+				<!-- id do panelGroup é necessario p/ update pelo commandButton, ativando o messages -->
+				<h:panelGroup id="inclusaoEnderecoPanel">
+					<p:messages />
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Logradouro" />
+						<p:inputText required="true" requiredMessage="O logradouro deve ser informado" 
+							size="40" style="margin-left: 20px"/>
+						<p:commandButton value="Incluir" update="enderecosTable inclusaoEnderecoPanel"
+						oncomplete="tratarInclusaoEndereco(args)" />
+						
+					</h:panelGrid>
+				</h:panelGroup>
+			
+			</p:dialog>
 		
 	</ui:define>
 </ui:composition>

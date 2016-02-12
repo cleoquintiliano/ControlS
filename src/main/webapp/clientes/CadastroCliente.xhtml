@@ -4,11 +4,19 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
-
+    
 	<ui:define name="titulo">Novo cliente</ui:define>
 
 	<ui:define name="corpo">
 		<h1>Novo Cliente</h1>
+		
+		<script>
+		function tratarInclusaoEndereco(args) {
+			if (!args.validationFailed) {
+				inclusaoEnderecoDialog.hide();
+			}
+		}
+		</script>
 		
 		<p:toolbar style="margin-top: 20px">
 			<p:toolbarGroup>
@@ -39,7 +47,8 @@
 			<p:inputText id="email" size="40" maxlength="40"/>
 		</p:panelGrid>
 		
-		<p:commandButton value="Adicionar endereço" style="margin-top: 20px" />
+		<p:commandButton value="Adicionar endereço" onclick="inclusaoEnderecoDialog.show(); return false;"
+			style="margin-top: 20px" />
 		
 		<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
 				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
@@ -64,6 +73,40 @@
 					<p:commandButton icon="ui-icon-trash" title="Excluir"/>
 				</p:column>
 			</p:dataTable>
+			
+			<p:dialog header="Inclusão de endereço" widgetVar="inclusaoEnderecoDialog"
+				modal="true" resizable="false">
+				<!-- id do panelGroup é necessario p/ update pelo commandButton, invocando o messages -->
+				<h:panelGroup id="inclusaoEnderecoPanel">
+					<p:messages />
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Logradouro" />
+						<p:inputText required="true" requiredMessage="O logradouro deve ser informado" 
+							size="40" style="margin-left: 20px"/>
+						<p:outputLabel value="Número" />
+						<p:inputText required="true" requiredMessage="O número deve ser informado" 
+							size="6" style="margin-left: 20px"/>
+						<p:outputLabel value="Complemento" />
+						<p:inputText size="20" style="margin-left: 20px"/>
+						<p:outputLabel value="CEP" />
+						<p:inputText required="true" requiredMessage="O CEP deve ser informado" 
+							size="10" style="margin-left: 20px"/>
+						<p:outputLabel value="Cidade" />
+						<h:panelGroup>
+						<p:inputText required="true" requiredMessage="A cidade deve ser informada" 
+							size="20" style="margin-left: 20px"/>
+						<p:outputLabel value="UF" style="margin-left: 20px" />
+						<p:inputText required="true" requiredMessage="O estado deve ser informado" 
+							size="4" style="margin-left: 20px"/>
+						</h:panelGroup>
+						<h:panelGroup/>
+						<p:commandButton value="Incluir" update="enderecosTable inclusaoEnderecoPanel"
+						oncomplete="tratarInclusaoEndereco(args)" style="margin-left: 20px" />
+						
+					</h:panelGrid>
+				</h:panelGroup>
+			
+			</p:dialog>
 		
 	</ui:define>
 </ui:composition>
