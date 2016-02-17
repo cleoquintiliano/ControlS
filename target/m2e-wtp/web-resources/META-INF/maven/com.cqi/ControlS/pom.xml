@@ -10,6 +10,14 @@
 	</properties>
 
 	<dependencies>
+		<!-- Weld (implementação do CDI) -->
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet</artifactId>
+            <version>1.1.10.Final</version>
+            <scope>compile</scope>
+        </dependency>
+		
 		<!-- Mojarra (implementação do JSF 2) -->
 		<dependency>
 			<groupId>org.glassfish</groupId>
@@ -34,8 +42,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 		</plugins>
