@@ -9,6 +9,8 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
+import com.cqi.controls.service.NegocioException;
+
 @Named
 @RequestScoped
 public class CadastroPedidoBean {
@@ -18,6 +20,10 @@ public class CadastroPedidoBean {
 	public CadastroPedidoBean() {
 		itens = new ArrayList<>();
 		itens.add(1);
+	}
+	
+	public void salvar() {
+		throw new NegocioException("Pedido não pode ser salvo, pois ainda não foi efetivado.");
 	}
 
 	public List<Integer> getItens() {

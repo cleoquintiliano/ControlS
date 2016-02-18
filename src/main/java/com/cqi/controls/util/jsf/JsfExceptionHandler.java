@@ -12,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
+import com.cqi.controls.service.NegocioException;
+
 public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 
 	private ExceptionHandler wrapped;
@@ -36,18 +38,42 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 			ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
 			
 			Throwable exception = context.getException();
+			NegocioException negocioException = getNegocioException(exception);
+			
+			boolean handled = false;
 			
 			try {
 				if (exception instanceof ViewExpiredException) {
+					handled = true;
 					redirect("/");
+				} else if (negocioException != null) {
+					handled = true;
+					FacesUtil.addErrorMessage(negocioException.getMessage());
+				} else {
+					handled = true;
+					redirect("/Erro.xhtml");
 				}
-			} finally {
-				events.remove();
+			} finally { 
+					if (handled){
+						events.remove();
+					}
 			}
 		}
 		//Finaliza o trabalho pegando tratamento  pai (JSF)
 		getWrapped().handle();
 	}
+	
+	// Verifica se a exceção é uma NegocioException (Throwable pode ser varios tipos de exceção) - Método recursivo
+	private NegocioException getNegocioException(Throwable exception) {
+		if (exception instanceof NegocioException) {
+			return (NegocioException) exception;
+		} else if (exception.getCause() != null) {
+			return getNegocioException(exception.getCause());
+		}
+		
+		return null;
+	}
+	
 	// Busca a raiz do contexto do erro da aplicação
 	private void redirect(String page) {
 		try {
