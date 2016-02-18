@@ -9,8 +9,11 @@ Servidor web: Apache Tomcat 8.0.30
 Build Manager: Maven
 Controle de versao: GIT (GitHub)
 Interface: JSF 2 (Mojarra 2.1.17) / Primefaces (suíte de componentes para JavaServer Faces)
+	- HTML
+	- CSS
 	- Ajax
-	-JavaScript
-	-JQuery
+	- JavaScript
+	- JQuery
 
 Injeção de dependências: CDI - (WELD 1.1.10.Final)
+Log: Implementação > Apache log4j™ 1.2 / API > Aoache Commons-logging 
