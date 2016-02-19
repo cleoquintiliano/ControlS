@@ -3,7 +3,7 @@ ______________________________________________
 
 Tecnologias do Projeto
 
-> Linguagem : Java 7
+> Linguagem : Java 8
 > IDE: Eclipse Java EE IDE for Web Developers. Version: Mars.1 Release (4.5.1)
 > Servidor web: Apache Tomcat 8.0.30 
 > Build Manager: Maven
@@ -17,5 +17,5 @@ Tecnologias do Projeto
 
 > Injeção de dependências: CDI - (WELD 1.1.10.Final)
 > Log: Implementação > Apache log4j™ 1.2 / API > Aoache Commons-logging 
-> ORM: Especificação: JPA / Implementação: Hibernate 4.2.3.Final
-> SGBD: MySQL 5.5 / Database Design & Modeling: MySQL Workbench 6.3.6  
+> ORM: Especificação: JPA / Implementação: Hibernate
+  
