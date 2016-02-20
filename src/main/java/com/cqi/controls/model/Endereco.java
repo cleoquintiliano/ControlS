@@ -2,9 +2,16 @@ package com.cqi.controls.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 /**
  * @author cqfb
  */
+
+@Entity
 public class Endereco implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -17,7 +24,9 @@ public class Endereco implements Serializable {
 	private String uf;
 	private String cep;
 	private Cliente cliente;
-
+	
+	@Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -73,7 +82,8 @@ public class Endereco implements Serializable {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-
+	
+	@ManyToOne
 	public Cliente getCliente() {
 		return cliente;
 	}
