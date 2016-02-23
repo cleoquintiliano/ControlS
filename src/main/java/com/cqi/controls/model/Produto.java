@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author cqfb
@@ -65,6 +68,7 @@ public class Produto implements Serializable {
 		this.valorUnitario = valorUnitario;
 	}
 	
+	@NotNull @Min(0) @Max(9999)
 	@Column(name="quantidade_estoque", nullable = false, length = 5)
 	public Integer getQuantidadeEstoque() {
 		return quantidadeEstoque;

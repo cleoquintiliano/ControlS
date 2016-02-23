@@ -19,3 +19,4 @@ Tecnologias do Projeto
 > Log: Implementação > Apache log4j™ 1.2 / API > Aoache Commons-logging 
 > ORM: Especificação: JPA / Implementação: Hibernate 4.2.3.Final
 > SGBD: MySQL 5.5 / Database Design & Modeling: MySQL Workbench 6.3.6  
+> Validação: Especificação > Bean Validation / Implementação > Hibernate Validator
