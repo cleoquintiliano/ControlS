@@ -10,7 +10,7 @@ import com.cqi.controls.model.TipoPessoa;
 /**
  * @author cqfb
  */
-public class Teste {
+public class TesteCliente {
 	
 	public static void main(String[] args) {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("ControlsPU");
