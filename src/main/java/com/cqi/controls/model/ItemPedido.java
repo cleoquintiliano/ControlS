@@ -3,9 +3,20 @@ package com.cqi.controls.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * @author cqfb
  */
+
+@Entity
+@Table(name = "item_pedido")
 public class ItemPedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -16,7 +27,8 @@ public class ItemPedido implements Serializable {
 	private Produto produto;
 	private Pedido pedido;
 	
-
+	@Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -24,7 +36,8 @@ public class ItemPedido implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
+	@Column(nullable = false, length = 4)
 	public Integer getQuantidade() {
 		return quantidade;
 	}
@@ -32,7 +45,8 @@ public class ItemPedido implements Serializable {
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
-
+	
+	@Column(name = "valor_unitario", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
 	}
@@ -40,7 +54,9 @@ public class ItemPedido implements Serializable {
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
-
+	
+	@ManyToOne
+	@JoinColumn(name = "produto_id", nullable = false)
 	public Produto getProduto() {
 		return produto;
 	}
@@ -49,6 +65,8 @@ public class ItemPedido implements Serializable {
 		this.produto = produto;
 	}
 	
+	@ManyToOne
+	@JoinColumn(name = "pedido_id", nullable = false)
 	public Pedido getPedido() {
 		return pedido;
 	}
