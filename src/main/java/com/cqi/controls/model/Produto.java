@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @author cqfb
@@ -40,7 +43,9 @@ public class Produto implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+	//NotBlank evita entrada de backspace
+	@NotBlank
+	@Size(max = 80)
 	@Column(nullable = false, length = 80)
 	public String getNome() {
 		return nome;
@@ -50,6 +55,7 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 	
+	@NotBlank
 	@Column(nullable = false, length = 20, unique = true)
 	public String getSku() {
 		return sku;
@@ -58,7 +64,8 @@ public class Produto implements Serializable {
 	public void setSku(String sku) {
 		this.sku = sku;
 	}
-	//Isso faz com que a coluna seja criada com tamanho 10, sendo 2 dígitos para decimais.
+	//precision faz com que a coluna seja criada com tamanho 10, sendo 2 dígitos para decimais.
+	@NotNull
 	@Column(name="valor_unitario", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
@@ -78,6 +85,7 @@ public class Produto implements Serializable {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", nullable = false)
 	public Categoria getCategoria() {
