@@ -88,7 +88,7 @@ public class Cliente implements Serializable {
 		this.celular = celular;
 	}
 	
-	@CPF
+	@CPF(message = "inválido")
 	@NotNull
 	@Size(max = 18)
 	@Column(name = "doc_receita_federal", nullable = false, length = 18)

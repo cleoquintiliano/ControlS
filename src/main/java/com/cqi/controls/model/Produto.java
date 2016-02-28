@@ -65,7 +65,8 @@ public class Produto implements Serializable {
 		this.sku = sku;
 	}
 	//precision faz com que a coluna seja criada com tamanho 10, sendo 2 dígitos para decimais.
-	@NotNull
+	//message altera a mensagem padrão para a atribuida
+	@NotNull(message = "é obrigatório")
 	@Column(name="valor_unitario", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
@@ -75,7 +76,7 @@ public class Produto implements Serializable {
 		this.valorUnitario = valorUnitario;
 	}
 	
-	@NotNull @Min(0) @Max(9999)
+	@NotNull @Min(0) @Max(value = 9999, message = "tem um valor muito alto")
 	@Column(name="quantidade_estoque", nullable = false, length = 5)
 	public Integer getQuantidadeEstoque() {
 		return quantidadeEstoque;
