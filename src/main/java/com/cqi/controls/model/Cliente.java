@@ -13,7 +13,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 /**
  * @author cqfb
  *
@@ -44,6 +49,8 @@ public class Cliente implements Serializable {
 		this.id = id;
 	}
 	
+	@NotBlank
+	@Size(max = 80)
 	@Column(nullable = false, length = 100)
 	public String getNome() {
 		return nome;
@@ -53,6 +60,9 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 	}
 	
+	@Email
+	@NotNull
+	@Size(max = 255)
 	@Column(nullable = false, length = 255)
 	public String getEmail() {
 		return email;
@@ -78,7 +88,10 @@ public class Cliente implements Serializable {
 		this.celular = celular;
 	}
 	
-	@Column(name = "doc_receita_federal", nullable = false, length = 14)
+	@CPF
+	@NotNull
+	@Size(max = 18)
+	@Column(name = "doc_receita_federal", nullable = false, length = 18)
 	public String getDocumentoReceitaFederal() {
 		return documentoReceitaFederal;
 	}
@@ -87,6 +100,7 @@ public class Cliente implements Serializable {
 		this.documentoReceitaFederal = documentoReceitaFederal;
 	}
 	
+	@NotNull 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 10)
 	public TipoPessoa getTipo() {
@@ -97,6 +111,7 @@ public class Cliente implements Serializable {
 		this.tipo = tipo;
 	}
 	
+	@NotNull @Size(min = 1)
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	public List<Endereco> getEnderecos() {
 		return enderecos;

@@ -14,6 +14,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * @author cqfb
  */
@@ -40,6 +43,7 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 	
+	@NotBlank
 	@Column(nullable = false, length = 80)
 	public String getNome() {
 		return nome;
@@ -49,6 +53,8 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 	//unique igual a true representa um índice único para a coluna no banco de dados
+	@Email
+	@NotBlank
 	@Column(nullable = false, unique = true, length = 255)
 	public String getEmail() {
 		return email;
@@ -58,6 +64,7 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 	
+	@NotBlank
 	@Column(nullable = false, length = 20)
 	public String getSenha() {
 		return senha;

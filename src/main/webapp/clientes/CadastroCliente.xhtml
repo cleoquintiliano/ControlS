@@ -6,6 +6,8 @@
     xmlns:p="http://primefaces.org/ui">
     
 	<ui:define name="titulo">Novo cliente</ui:define>
+	
+	
 
 	<ui:define name="corpo">
 		<h1>Novo Cliente</h1>
@@ -18,37 +20,49 @@
 		}
 		</script>
 		
+		<h:form id="frm">
+		
+		<p:messages id="msgCliente" autoUpdate="false" closable="true"/>
+		
 		<p:toolbar style="margin-top: 20px">
 			<p:toolbarGroup>
 				<p:button value="Novo" outcome="/clientes/CadastroCliente"/>
-				<p:commandButton value="Salvar" id="botaoSalvar"/>
+				<p:commandButton value="Salvar" id="botaoSalvar" update="msgCliente frm" 
+					action="#{cadastroClienteBean.salvar}" process="inclusaoClientePanel" />
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
 				<p:button value="Consultar" outcome="/clientes/ConsultaClientes"/>
 			</p:toolbarGroup>
 		</p:toolbar>
 		
-		<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
-			columnClasses="rotulo, campo" >
-			
-			<p:outputLabel value="Nome" for="nome"/>
-			<p:inputText id="nome" size="60" maxlength="80"/>
-			
-			<p:outputLabel value="Tipo" for="tipo" />
-			<p:selectOneRadio id="tipo" styleClass="sem-borda" layout="lineDirection">
-				<f:selectItem itemLabel="Fisica" itemValue="Fisica" />
-				<f:selectItem itemLabel="Juridica" itemValue="Juridica" />
-			</p:selectOneRadio>
-			
-			<p:outputLabel value="CPF/CNPJ" for="cnpj"/>
-			<p:inputMask id="cnpj" mask="99.999.999/9999-99" />
-			
-			<p:outputLabel value="E-mail" for="email"/>
-			<p:inputText id="email" size="40" maxlength="40"/>
-		</p:panelGrid>
+		<h:panelGroup id="inclusaoClientePanel">
+		
+			<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+				columnClasses="rotulo, campo" >
+				
+				<p:outputLabel value="Nome" for="nome"/>
+				<p:inputText id="nome" size="60" maxlength="80" 
+					value="#{cadastroClienteBean.cliente.nome}"/>
+				
+				<p:outputLabel value="Tipo pessoa" for="tipo" />
+				<p:selectOneRadio id="tipo" styleClass="sem-borda" layout="lineDirection" 
+					value="#{cadastroClienteBean.cliente.tipo}">
+					<f:selectItem itemLabel="Fisica" itemValue="FISICA" />
+					<f:selectItem itemLabel="Juridica" itemValue="JURIDICA" />
+				</p:selectOneRadio>
+				
+				<p:outputLabel value="CPF" for="cpf"/>
+				<p:inputMask id="cpf" mask="99999999999" 
+					value="#{cadastroClienteBean.cliente.documentoReceitaFederal}"/>
+				
+				<p:outputLabel value="E-mail" for="email"/>
+				<p:inputText id="email" size="40" maxlength="255" 
+					value="#{cadastroClienteBean.cliente.email}"/>
+			</p:panelGrid>
+		</h:panelGroup>
 		
 		<p:commandButton value="Adicionar endereço" onclick="inclusaoEnderecoDialog.show(); return false;"
-			style="margin-top: 20px" />
+			style="margin-top: 20px"/>
 		
 		<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
 				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
@@ -84,35 +98,39 @@
 				modal="true" resizable="false">
 				<!-- id do panelGroup é necessario p/ update pelo commandButton, invocando o messages -->
 				<h:panelGroup id="inclusaoEnderecoPanel">
-					<p:messages />
+					<p:messages id="msgEndereco" autoUpdate="false" closable="true"/>
 					<h:panelGrid columns="2">
 						<p:outputLabel value="Logradouro" />
-						<p:inputText required="true" requiredMessage="O logradouro deve ser informado" 
-							size="40" style="margin-left: 20px"/>
+						<p:inputText size="40" style="margin-left: 20px"
+							value="#{cadastroClienteBean.endereco.logradouro}"/>
 						<p:outputLabel value="Número" />
-						<p:inputText required="true" requiredMessage="O número deve ser informado" 
-							size="6" style="margin-left: 20px"/>
+						<p:inputText size="6" style="margin-left: 20px"
+							value="#{cadastroClienteBean.endereco.numero}"/>
 						<p:outputLabel value="Complemento" />
-						<p:inputText size="20" style="margin-left: 20px"/>
+						<p:inputText size="20" style="margin-left: 20px"
+							value="#{cadastroClienteBean.endereco.complemento}"/>
 						<p:outputLabel value="CEP" />
-						<p:inputText required="true" requiredMessage="O CEP deve ser informado" 
-							size="10" style="margin-left: 20px"/>
+						<p:inputText size="10" style="margin-left: 20px"
+							value="#{cadastroClienteBean.endereco.cep}"/>
 						<p:outputLabel value="Cidade" />
 						<h:panelGroup>
-						<p:inputText required="true" requiredMessage="A cidade deve ser informada" 
-							size="20" style="margin-left: 20px"/>
+						<p:inputText size="20" style="margin-left: 20px"
+							value="#{cadastroClienteBean.endereco.cidade}"/>
 						<p:outputLabel value="UF" style="margin-left: 20px" />
-						<p:inputText required="true" requiredMessage="O estado deve ser informado" 
-							size="4" style="margin-left: 20px"/>
+						<p:inputText size="4" style="margin-left: 20px"
+							value="#{cadastroClienteBean.endereco.uf}"/>
 						</h:panelGroup>
 						<h:panelGroup/>
-						<p:commandButton value="Incluir" update="enderecosTable inclusaoEnderecoPanel"
-						oncomplete="tratarInclusaoEndereco(args)" style="margin-left: 20px" />
+						<p:commandButton value="Incluir" update="enderecosTable msgEndereco" process="inclusaoEnderecoPanel"
+						oncomplete="tratarInclusaoEndereco(args)" style="margin-left: 20px" 
+							action="#{cadastroClienteBean.adicionarEndereco}" />
 						
 					</h:panelGrid>
 				</h:panelGroup>
 			
 			</p:dialog>
+			
+		</h:form>
 		
 	</ui:define>
 </ui:composition>

@@ -10,63 +10,70 @@
 	<ui:define name="corpo">
 		<h1>Novo usuário</h1>
 		
-		<p:toolbar style="margin-top: 20px">
-			<p:toolbarGroup>
-				<p:button value="Novo" outcome="/usuarios/CadastroUsuario"/>
-				<p:commandButton value="Salvar" id="botaoSalvar"/>
-			</p:toolbarGroup>
-			<p:toolbarGroup align="right">
-				<p:button value="Consultar" outcome="/usuarios/ConsultaUsuarios" />
-			</p:toolbarGroup>
-		</p:toolbar>
+		<h:form id="frm">
 		
-		<p:panelGrid columns="2" style="width: 100%; margin-top: 20px"
-			columnClasses="rotulo, campo" >
+			<p:messages autoUpdate="true" closable="true"/>
 			
-			<p:outputLabel value="Nome" for="nome"/>
-			<p:inputText id="nome" size="60" maxlength="80"/>
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/usuarios/CadastroUsuario"/>
+					<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroUsuarioBean.salvar}"
+						update="frm"/>
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Consultar" outcome="/usuarios/ConsultaUsuarios" />
+				</p:toolbarGroup>
+			</p:toolbar>
 			
-			<p:outputLabel value="E-mail" for="email"/>
-			<p:inputText id="email" size="40" maxlength="40"/>
+			<p:panelGrid columns="2" style="width: 100%; margin-top: 20px"
+				columnClasses="rotulo, campo" >
+				
+				<p:outputLabel value="Nome" for="nome"/>
+				<p:inputText id="nome" size="60" maxlength="80" 
+					value="#{cadastroUsuarioBean.usuario.nome}"/>
+				
+				<p:outputLabel value="E-mail" for="email"/>
+				<p:inputText id="email" size="40" maxlength="40"
+					value="#{cadastroUsuarioBean.usuario.email}"/>
+				
+				<p:outputLabel value="Senha" for="senha"/>
+				<p:password id="senha" value="#{cadastroUsuarioBean.usuario.senha}"
+					feedback="true" weakLabel="Senha fraca" goodLabel="Senha boa" strongLabel="Senha forte"
+					promptLabel="Informe sua senha" inline="true" 
+					match="confirmacaoSenha"/>
+				
+				<p:outputLabel value="Confirme a senha" for="confirmacaoSenha"/>
+				<p:password id="confirmacaoSenha" />
+				
+			</p:panelGrid>
 			
-			<p:outputLabel value="Senha" for="senha"/>
-			<p:password id="senha" 
-				feedback="true" weakLabel="Senha fraca" goodLabel="Senha boa" strongLabel="Senha forte"
-				promptLabel="Informe sua senha" inline="true" 
-				match="confirmacaoSenha"/>
+			<p:panelGrid columns="2" style="width: 100%; margin-top: 20px"
+				columnClasses="rotulo">	
+				<p:selectOneMenu >
+				     <f:selectItem itemLabel="Administradores"/>
+				     <f:selectItem itemLabel="Auxiliares"/>
+				     <f:selectItem itemLabel="Vendedores"/>
+				</p:selectOneMenu>
+				<p:commandButton value="Adicionar grupo" style="height: 25px"/>
+			</p:panelGrid>
 			
-			<p:outputLabel value="Confirme a senha" for="confirmacaoSenha"/>
-			<p:password id="confirmacaoSenha" />
+			<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
+				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
+				rows="2" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+				<p:column headerText="Grupo" style="text-align: left">
+					<h:outputText value="Administradores"/>
+				</p:column>
 			
-		</p:panelGrid>
-		
-		<p:panelGrid columns="2" style="width: 100%; margin-top: 20px"
-			columnClasses="rotulo">	
-			<p:selectOneMenu >
-			     <f:selectItem itemLabel="Administradores"/>
-			     <f:selectItem itemLabel="Auxiliares"/>
-			     <f:selectItem itemLabel="Vendedores"/>
-			</p:selectOneMenu>
-			<p:commandButton value="Adicionar grupo" style="height: 25px"/>
-		</p:panelGrid>
-		
-		<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
-			style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
-			rows="2" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
-			<p:column headerText="Grupo" style="text-align: left">
-				<h:outputText value="Administradores"/>
-			</p:column>
-		
-			<p:column style="width: 50px; text-align: center" >
-				<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoGrupo.show()"/>
-			</p:column>
-		</p:dataTable>	
-		
-		<p:confirmDialog header="Exclusão de grupo" message="Tem certeza que deseja excluir o grupo?"
-			widgetVar="confirmacaoExclusaoGrupo">
-			<p:button value="Não" onclick="confirmacaoExclusaoGrupo.hide(); return false;"/>
-			<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoGrupo.hide();"/>
-		</p:confirmDialog>
-		
+				<p:column style="width: 50px; text-align: center" >
+					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoGrupo.show()"/>
+				</p:column>
+			</p:dataTable>	
+			
+			<p:confirmDialog header="Exclusão de grupo" message="Tem certeza que deseja excluir o grupo?"
+				widgetVar="confirmacaoExclusaoGrupo">
+				<p:button value="Não" onclick="confirmacaoExclusaoGrupo.hide(); return false;"/>
+				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoGrupo.hide();"/>
+			</p:confirmDialog>
+		</h:form>
 	</ui:define>
 </ui:composition>
