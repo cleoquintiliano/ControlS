@@ -17,6 +17,10 @@ public class Categorias implements Serializable {
 
 	@Inject
 	private EntityManager manager;
+	
+	public Categoria porId(Long id) {
+		return manager.find(Categoria.class, id);
+	}
 
 	//Query JPQL (Java Persistence Query Language) que retorna objetos (não colunas)
 	public List<Categoria> raizes() {
