@@ -10,6 +10,10 @@
 	<ui:define name="corpo">
 		
 		<f:metadata>
+			<!-- <f:viewParam name="workaround" /> é um workaround para resolver BUG do Mojarra
+			onde o Listener preRenderView é chamado muitas vezes (o nome pode ser qualquer um) 
+			https://java.net/jira/browse/JAVASERVERFACES-2162 -->
+			<f:viewParam name="workaround" />
     		<f:event listener="#{cadastroProdutoBean.inicializar}" type="preRenderView" />
     	</f:metadata>
     	
