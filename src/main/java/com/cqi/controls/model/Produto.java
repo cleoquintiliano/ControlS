@@ -17,6 +17,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.cqi.controls.validation.SKU;
+
 /**
  * @author cqfb
  */
@@ -55,7 +57,7 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 	
-	@NotBlank
+	@NotBlank @SKU
 	@Column(nullable = false, length = 20, unique = true)
 	public String getSku() {
 		return sku;
