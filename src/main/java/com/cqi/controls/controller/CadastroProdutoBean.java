@@ -1,6 +1,7 @@
 package com.cqi.controls.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import com.cqi.controls.model.Categoria;
 import com.cqi.controls.model.Produto;
 import com.cqi.controls.repository.Categorias;
+import com.cqi.controls.service.CadastroProdutoService;
 import com.cqi.controls.util.jsf.FacesUtil;
 
 /**
@@ -25,6 +27,9 @@ public class CadastroProdutoBean implements Serializable {
 
 	@Inject
 	private Categorias categorias;
+	
+	@Inject
+	private CadastroProdutoService cadastroProdutoService;
 
 	private Produto produto;
 	private Categoria categoriaPai;
@@ -33,7 +38,7 @@ public class CadastroProdutoBean implements Serializable {
 	private List<Categoria> subcategorias;
 
 	public CadastroProdutoBean() {
-		produto = new Produto();
+		limpar();
 	}
 
 	public void inicializar() {
@@ -46,10 +51,18 @@ public class CadastroProdutoBean implements Serializable {
 	public void carregarSubcategorias() {
 		subcategorias = categorias.subcategoriasDe(categoriaPai);
 	}
+	
+	private void limpar() {
+		produto = new Produto();
+		categoriaPai = null;
+		subcategorias = new ArrayList<>();
+	}
 
 	public void salvar() {
-		System.out.println("Categoria pai selecionada: " + categoriaPai.getDescricao());
-		System.out.println("Subcategoria selecionada: " + produto.getCategoria().getDescricao());
+		this.produto = cadastroProdutoService.salvar(this.produto);
+		limpar();
+		
+		FacesUtil.addInfoMessage("Produto salvo com sucesso!");;
 	}
 
 	public Produto getProduto() {
