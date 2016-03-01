@@ -6,17 +6,25 @@ import javax.inject.Inject;
 
 import com.cqi.controls.model.Produto;
 import com.cqi.controls.repository.Produtos;
+import com.cqi.controls.util.jpa.Transactional;
 
 /**
  * @author cqfb
  */
+
 public class CadastroProdutoService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private Produtos produtos;
-	// Metodo de regra que salva apenas se SKU ainda não existe (SKU deve ser único)
+	
+	/**	
+	 * Metodo que salva apenas se SKU ainda não existe (SKU deve ser único)
+	 * @param produto
+	 * @return 
+	 */
+	@Transactional
 	public Produto salvar(Produto produto) {
 		Produto produtoExistente = produtos.porSku(produto.getSku());
 
