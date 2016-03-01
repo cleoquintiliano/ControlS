@@ -20,3 +20,4 @@ Tecnologias do Projeto
 > ORM: Especificação: JPA / Implementação: Hibernate 4.2.3.Final
 > SGBD: MySQL 5.5 / Database Design & Modeling: MySQL Workbench 6.3.6  
 > Validação: Especificação > Bean Validation / Implementação > Hibernate Validator
+> Pacote de classes de utilitários Java: Commons Lang 3.1
