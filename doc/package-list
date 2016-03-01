@@ -1,0 +1,10 @@
+
+com.cqi.controls.controller
+com.cqi.controls.converter
+com.cqi.controls.model
+com.cqi.controls.repository
+com.cqi.controls.service
+com.cqi.controls.util.cdi
+com.cqi.controls.util.jpa
+com.cqi.controls.util.jsf
+com.cqi.controls.validation
