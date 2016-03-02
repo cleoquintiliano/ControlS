@@ -20,7 +20,7 @@ public class CadastroProdutoService implements Serializable {
 	private Produtos produtos;
 	
 	/**	
-	 * Metodo que salva apenas se SKU ainda não existe (SKU deve ser único)
+	 * Metodo que salva apenas se SKU ainda não existe (SKU deve ser único) ou se for uma edição
 	 * @param produto
 	 * @return 
 	 */
@@ -28,7 +28,7 @@ public class CadastroProdutoService implements Serializable {
 	public Produto salvar(Produto produto) {
 		Produto produtoExistente = produtos.porSku(produto.getSku());
 
-		if (produtoExistente != null) {
+		if (produtoExistente != null && !produtoExistente.equals(produto))  {
 			throw new NegocioException("Já existe um produto com o SKU informado.");
 		}
 
