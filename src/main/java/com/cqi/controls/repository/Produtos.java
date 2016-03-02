@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -16,6 +17,8 @@ import org.hibernate.criterion.Restrictions;
 
 import com.cqi.controls.model.Produto;
 import com.cqi.controls.repository.filter.ProdutoFilter;
+import com.cqi.controls.service.NegocioException;
+import com.cqi.controls.util.jpa.Transactional;
 
 /**
  * @author cqfb
@@ -38,6 +41,24 @@ public class Produtos implements Serializable {
 		//
 		return manager.merge(produto);
 
+	}
+
+	/**
+	 * "porId" conecta para persistencia / "remove" apenas seleciona para
+	 * remoção /"flush" executa pendencias de execução (remove) / em caso de
+	 * erro na persistencia (flush) como FK por exemplo lança NegocioException
+	 * 
+	 * @param produto
+	 */
+	@Transactional
+	public void remover(Produto produto) {
+		try {
+			produto = porId(produto.getId());
+			manager.remove(produto);
+			manager.flush();
+		} catch (PersistenceException e) {
+			throw new NegocioException("Produto não pode ser excluído.");
+		}
 	}
 
 	/**
@@ -84,7 +105,7 @@ public class Produtos implements Serializable {
 
 		return criteria.addOrder(Order.asc("nome")).list();
 	}
-	
+
 	public Produto porId(Long id) {
 		return manager.find(Produto.class, id);
 	}

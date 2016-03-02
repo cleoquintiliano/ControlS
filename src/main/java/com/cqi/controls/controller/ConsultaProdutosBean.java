@@ -13,6 +13,7 @@ import javax.inject.Named;
 import com.cqi.controls.model.Produto;
 import com.cqi.controls.repository.Produtos;
 import com.cqi.controls.repository.filter.ProdutoFilter;
+import com.cqi.controls.util.jsf.FacesUtil;
 
 /**
  * Um managed bean é capaz de passivação (e ativação) SE E SOMENTE SE a classe
@@ -34,8 +35,18 @@ public class ConsultaProdutosBean implements Serializable {
 	private ProdutoFilter filtro;
 	private List<Produto> produtosFiltrados;
 
+	private Produto produtoSelecionado;
+
 	public ConsultaProdutosBean() {
 		filtro = new ProdutoFilter();
+	}
+	
+	public void excluir() {
+		produtos.remover(produtoSelecionado);
+		produtosFiltrados.remove(produtoSelecionado);
+		
+		FacesUtil.addInfoMessage("Produto " + produtoSelecionado.getSku() 
+				+ " excluído com sucesso.");
 	}
 
 	public void pesquisar() {
@@ -48,6 +59,14 @@ public class ConsultaProdutosBean implements Serializable {
 
 	public ProdutoFilter getFiltro() {
 		return filtro;
+	}
+
+	public Produto getProdutoSelecionado() {
+		return produtoSelecionado;
+	}
+
+	public void setProdutoSelecionado(Produto produtoSelecionado) {
+		this.produtoSelecionado = produtoSelecionado;
 	}
 
 }
