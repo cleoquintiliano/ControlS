@@ -67,7 +67,6 @@ public class CadastroProdutoBean implements Serializable {
 		limpar();
 
 		FacesUtil.addInfoMessage("Produto salvo com sucesso!");
-		;
 	}
 
 	public Produto getProduto() {
