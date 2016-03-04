@@ -75,13 +75,21 @@ public class CadastroUsuarioBean implements Serializable {
 		}
 
 	}
-	
-	public void removerGrupo(){
+
+	public void removerGrupo() {
 		this.usuario.getGrupos().remove(grupoSelecionado);
 	}
 
 	public Usuario getUsuario() {
 		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+		
+		/*if (this.usuario != null){
+			this.grupo = this.usuario.getGrupos();
+		}*/
 	}
 
 	public Grupo getGrupo() {
@@ -102,6 +110,10 @@ public class CadastroUsuarioBean implements Serializable {
 
 	public List<Grupo> getListaGrupos() {
 		return listaGrupos;
+	}
+	
+	public boolean isEditando() {
+		return this.usuario.getId() != null;
 	}
 
 }

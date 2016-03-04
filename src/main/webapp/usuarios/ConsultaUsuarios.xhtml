@@ -40,7 +40,9 @@
 					<h:outputText value="#{usuario.email}"/>
 				</p:column>
 				<p:column style="width: 100px; text-align: center" >
-					<p:button icon="ui-icon-pencil" title="Editar"/>
+					<p:button outcome="/usuarios/CadastroUsuario" icon="ui-icon-pencil" title="Editar">
+						<f:param name="usuario" value="#{usuario.id}" />
+					</p:button>
 					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoUsuario.show()"/>
 				</p:column>
 			</p:dataTable>

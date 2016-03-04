@@ -6,7 +6,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="titulo">Novo usuário</ui:define>
+	<ui:define name="titulo">#{cadastroUsuarioBean.editando ? 'Edição de usuario' : 'Novo usuário'}</ui:define>
 
 	<ui:define name="corpo">
 	
@@ -19,9 +19,9 @@
     		<f:event listener="#{cadastroUsuarioBean.inicializar}" type="preRenderView" />
     	</f:metadata>
     	
-		<h1>Novo usuário</h1>
-		
 		<h:form id="frmUsuario">
+		
+		<h1>#{cadastroUsuarioBean.editando ? 'Edição de usuario' : 'Novo usuário'}</h1>
 		
 			<p:messages autoUpdate="true" closable="true"/>
 			
@@ -29,7 +29,7 @@
 				<p:toolbarGroup>
 					<p:button value="Novo" outcome="/usuarios/CadastroUsuario"/>
 					<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroUsuarioBean.salvar}"
-						update="@form "/>
+						update="frmUsuario"/>
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Consultar" outcome="/usuarios/ConsultaUsuarios" />
@@ -51,10 +51,10 @@
 				<p:password id="senha" value="#{cadastroUsuarioBean.usuario.senha}"
 					feedback="true" weakLabel="Senha fraca" goodLabel="Senha boa" strongLabel="Senha forte"
 					promptLabel="Informe sua senha" inline="true" 
-					match="confirmacaoSenha" validatorMessage="Senhas não coincidem"/>
+					match="confirmacaoSenha" validatorMessage="Senhas não coincidem" redisplay="true"/>
 				
 				<p:outputLabel value="Confirme a senha" for="confirmacaoSenha"/>
-				<p:password id="confirmacaoSenha" />
+				<p:password id="confirmacaoSenha" value="#{cadastroUsuarioBean.usuario.senha}" redisplay="true"/>
 				
 			</p:panelGrid>
 			

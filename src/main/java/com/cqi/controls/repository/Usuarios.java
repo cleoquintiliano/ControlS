@@ -16,7 +16,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.cqi.controls.model.Usuario;
-import com.cqi.controls.repository.filter.ProdutoFilter;
 import com.cqi.controls.repository.filter.UsuarioFilter;
 import com.cqi.controls.service.NegocioException;
 import com.cqi.controls.util.jpa.Transactional;
