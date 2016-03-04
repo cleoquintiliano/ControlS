@@ -10,15 +10,15 @@ import com.cqi.controls.repository.Categorias;
 import com.cqi.controls.util.cdi.CDIServiceLocator;
 
 /**
- * @author cqfb
  * Um converter é uma classe que implementa a interface javax.faces.convert.Converter, 
  * implementando os dois métodos desta interface, o getAsObject e o getAsString.
+ * @author cqfb
  */
 
 @FacesConverter(forClass = Categoria.class)
 public class CategoriaConverter implements Converter {
 
-	//@Inject (não funciona em conversores para está versão)
+	//@Inject (não funciona em conversores para essa versão)
 	private Categorias categorias;
 	
 	public CategoriaConverter() {

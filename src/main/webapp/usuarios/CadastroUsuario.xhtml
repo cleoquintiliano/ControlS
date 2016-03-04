@@ -3,14 +3,25 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="titulo">Novo usuário</ui:define>
 
 	<ui:define name="corpo">
+	
+		<f:metadata>
+			<!-- <f:viewParam name="workaround" /> é um workaround para resolver BUG do Mojarra
+			onde o Listener preRenderView é chamado muitas vezes (o nome pode ser qualquer um) 
+			https://java.net/jira/browse/JAVASERVERFACES-2162 -->
+			<!--"viewParam" do omnifaces utilizado, pois o do jsf core faz varias chamadas ao set-->
+			<o:viewParam name="usuario" value="#{cadastroUsuarioBean.usuario}" />
+    		<f:event listener="#{cadastroUsuarioBean.inicializar}" type="preRenderView" />
+    	</f:metadata>
+    	
 		<h1>Novo usuário</h1>
 		
-		<h:form id="frm">
+		<h:form id="frmUsuario">
 		
 			<p:messages autoUpdate="true" closable="true"/>
 			
@@ -18,14 +29,14 @@
 				<p:toolbarGroup>
 					<p:button value="Novo" outcome="/usuarios/CadastroUsuario"/>
 					<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroUsuarioBean.salvar}"
-						update="frm"/>
+						update="@form "/>
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Consultar" outcome="/usuarios/ConsultaUsuarios" />
 				</p:toolbarGroup>
 			</p:toolbar>
 			
-			<p:panelGrid columns="2" style="width: 100%; margin-top: 20px"
+			<p:panelGrid id="usuarioPanel" columns="2" style="width: 100%; margin-top: 20px"
 				columnClasses="rotulo, campo" >
 				
 				<p:outputLabel value="Nome" for="nome"/>
@@ -40,39 +51,46 @@
 				<p:password id="senha" value="#{cadastroUsuarioBean.usuario.senha}"
 					feedback="true" weakLabel="Senha fraca" goodLabel="Senha boa" strongLabel="Senha forte"
 					promptLabel="Informe sua senha" inline="true" 
-					match="confirmacaoSenha"/>
+					match="confirmacaoSenha" validatorMessage="Senhas não coincidem"/>
 				
 				<p:outputLabel value="Confirme a senha" for="confirmacaoSenha"/>
 				<p:password id="confirmacaoSenha" />
 				
 			</p:panelGrid>
 			
-			<p:panelGrid columns="2" style="width: 100%; margin-top: 20px"
+			<p:panelGrid id="grupoPanel" columns="2" style="width: 100%; margin-top: 20px"
 				columnClasses="rotulo">	
-				<p:selectOneMenu >
-				     <f:selectItem itemLabel="Administradores"/>
-				     <f:selectItem itemLabel="Auxiliares"/>
-				     <f:selectItem itemLabel="Vendedores"/>
+				<p:selectOneMenu id="grupos" value="#{cadastroUsuarioBean.grupoSelecionado}">
+				     <f:selectItems value="#{cadastroUsuarioBean.listaGrupos}" var="grupo"
+	    				itemValue="#{grupo}" itemLabel="#{grupo.nome}" />
 				</p:selectOneMenu>
-				<p:commandButton value="Adicionar grupo" style="height: 25px"/>
+				<p:commandButton value="Adicionar grupo" style="height: 25px" 
+					action="#{cadastroUsuarioBean.adicionarGrupo}" process="@this grupoPanel" update="@this gruposTable"/>
 			</p:panelGrid>
 			
-			<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
-				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
-				rows="2" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+			<p:dataTable id="gruposTable" value="#{cadastroUsuarioBean.usuario.grupos}" var="grupo"
+				style="margin-top: 10px" emptyMessage="Nenhum grupo encontrado."
+				rows="3" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
 				<p:column headerText="Grupo" style="text-align: left">
-					<h:outputText value="Administradores"/>
+					<h:outputText value="#{grupo.nome}"/>
 				</p:column>
 			
 				<p:column style="width: 50px; text-align: center" >
-					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoGrupo.show()"/>
+					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoGrupo.show()"
+						process="@this" update=":frmUsuario:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener target="#{cadastroUsuarioBean.grupoSelecionado}"
+							value="#{grupo}" />
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>	
 			
-			<p:confirmDialog header="Exclusão de grupo" message="Tem certeza que deseja excluir o grupo?"
-				widgetVar="confirmacaoExclusaoGrupo">
+			<p:confirmDialog header="Exclusão de grupo" 
+				message="Tem certeza que deseja excluir usuário do grupo #{cadastroUsuarioBean.grupoSelecionado.nome}?"
+				widgetVar="confirmacaoExclusaoGrupo" id="confirmacaoExclusaoDialog">
 				<p:button value="Não" onclick="confirmacaoExclusaoGrupo.hide(); return false;"/>
-				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoGrupo.hide();"/>
+				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoGrupo.hide();"
+					action="#{cadastroUsuarioBean.removerGrupo}" process="@this"
+					update="gruposTable"/>
 			</p:confirmDialog>
 		</h:form>
 	</ui:define>

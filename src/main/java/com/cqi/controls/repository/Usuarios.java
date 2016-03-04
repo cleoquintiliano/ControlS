@@ -38,7 +38,6 @@ public class Usuarios implements Serializable {
 	 * @return instancia do usuario persistido
 	 */
 	public Usuario guardar(Usuario usuario) {
-		//
 		return manager.merge(usuario);
 
 	}
@@ -62,15 +61,15 @@ public class Usuarios implements Serializable {
 	}
 
 	/**
-	 * Metodo verifica se o NOME já existe
+	 * Metodo verifica se o EMAIL já existe
 	 * 
 	 * @param nome
 	 * @return null
 	 */
-	public Usuario porNome(String nome) {
+	public Usuario porEmail(String email) {
 		try {
-			return manager.createQuery("from Usuario where upper(nome) = :nome", Usuario.class)
-					.setParameter("nome", nome.toUpperCase()).getSingleResult();
+			return manager.createQuery("from Usuario where upper(email) = :email", Usuario.class)
+					.setParameter("email", email.toUpperCase()).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}

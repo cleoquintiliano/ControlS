@@ -5,33 +5,33 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.cqi.controls.model.Produto;
-import com.cqi.controls.repository.Produtos;
+import com.cqi.controls.model.Grupo;
+import com.cqi.controls.repository.Grupos;
 import com.cqi.controls.util.cdi.CDIServiceLocator;
 
 /**
- * @author cqfb
  * Um converter é uma classe que implementa a interface javax.faces.convert.Converter, 
  * implementando os dois métodos desta interface, o getAsObject e o getAsString.
+ * @author cqfb
  */
 
-@FacesConverter(forClass = Produto.class)
-public class ProdutoConverter implements Converter {
+@FacesConverter(forClass = Grupo.class)
+public class GrupoConverter implements Converter {
 
 	//@Inject (não funciona em conversores para essa versão)
-	private Produtos produtos;
+	private Grupos grupos;
 	
-	public ProdutoConverter() {
-		produtos = CDIServiceLocator.getBean(Produtos.class);
+	public GrupoConverter() {
+		grupos = CDIServiceLocator.getBean(Grupos.class);
 	}
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Produto retorno = null;
+		Grupo retorno = null;
 		
 		if (value != null) {
 			Long id = new Long(value);
-			retorno = produtos.porId(id);
+			retorno = grupos.porId(id);
 		}
 		
 		return retorno;
@@ -40,8 +40,7 @@ public class ProdutoConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Produto produto = (Produto) value;
-			return produto.getId() == null ? null : produto.getId().toString();
+			return ((Grupo) value).getId().toString();
 		}
 		
 		return "";
