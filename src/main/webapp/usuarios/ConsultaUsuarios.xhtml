@@ -11,9 +11,12 @@
 		<h:form>
 			<h1>Consulta usuários</h1>
 			
+			<p:messages autoUpdate="true" closable="true" />
+			
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
-					<p:commandButton value="Consultar"/>
+					<p:commandButton value="Consultar" action="#{consultaUsuariosBean.pesquisar}"
+	    				update="@form"/>
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Novo" outcome="/usuarios/CadastroUsuario"/>
@@ -24,17 +27,17 @@
 				columnClasses="rotulo, campo" >
 				
 				<p:outputLabel value="Nome" for="nome"/>
-				<p:inputText id="nome" size="60" />
+				<p:inputText id="nome" size="60" value="#{consultaUsuariosBean.filtro.nome}"/>
 			</p:panelGrid>
 			
 			<p:dataTable id="clientesTable" value="#{consultaUsuariosBean.usuariosFiltrados}" var="usuario"
 				style="margin-top: 20px" emptyMessage="Nenhum usuário encontrado."
-				rows="20" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+				rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
 				<p:column headerText="Nome" style="width: 600px" >
-					<h:outputText value="Fausto Silva"/>
+					<h:outputText value="#{usuario.nome}"/>
 				</p:column>
 				<p:column headerText="E-mail" >
-					<h:outputText value="sagsdgsfsfsdfsd@sfsdfsd.com.br"/>
+					<h:outputText value="#{usuario.email}"/>
 				</p:column>
 				<p:column style="width: 100px; text-align: center" >
 					<p:button icon="ui-icon-pencil" title="Editar"/>

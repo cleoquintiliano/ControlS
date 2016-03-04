@@ -17,6 +17,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.cqi.controls.model.Usuario;
 import com.cqi.controls.repository.filter.ProdutoFilter;
+import com.cqi.controls.repository.filter.UsuarioFilter;
 import com.cqi.controls.service.NegocioException;
 import com.cqi.controls.util.jpa.Transactional;
 
@@ -90,12 +91,12 @@ public class Usuarios implements Serializable {
 	 */
 
 	@SuppressWarnings("unchecked")
-	public List<Usuario> filtrados(ProdutoFilter filtro) {
+	public List<Usuario> filtrados(UsuarioFilter filtro) {
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(Usuario.class);
 
-		if (StringUtils.isNotBlank(filtro.getSku())) {
-			criteria.add(Restrictions.eq("sku", filtro.getSku()));
+		if (StringUtils.isNotBlank(filtro.getEmail())) {
+			criteria.add(Restrictions.eq("sku", filtro.getEmail()));
 		}
 
 		if (StringUtils.isNotBlank(filtro.getNome())) {

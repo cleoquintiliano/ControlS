@@ -1,30 +1,47 @@
 package com.cqi.controls.controller;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import com.cqi.controls.model.Usuario;
+import com.cqi.controls.repository.Usuarios;
+import com.cqi.controls.repository.filter.UsuarioFilter;
 
 /**
  * @author cqfb
  */
 
 @Named
-@RequestScoped
-public class ConsultaUsuariosBean {
-	
-	private List<Integer> usuariosFiltrados;
+@ViewScoped
+public class ConsultaUsuariosBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private Usuarios usuarios;
+
+	private UsuarioFilter filtro;
+
+	private List<Usuario> usuariosFiltrados;
 
 	public ConsultaUsuariosBean() {
-		usuariosFiltrados = new ArrayList<>();
-		for (int i = 0; i < 50; i++) {
-			usuariosFiltrados.add(i);
-		}
+		filtro = new UsuarioFilter();
 	}
 
-	public List<Integer> getUsuariosFiltrados() {
+	public void pesquisar() {
+		usuariosFiltrados = usuarios.filtrados(filtro);
+	}
+
+	public List<Usuario> getUsuariosFiltrados() {
 		return usuariosFiltrados;
+	}
+
+	public UsuarioFilter getFiltro() {
+		return filtro;
 	}
 
 }
