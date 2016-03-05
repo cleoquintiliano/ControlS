@@ -51,8 +51,8 @@
 					<f:selectItem itemLabel="Juridica" itemValue="JURIDICA" />
 				</p:selectOneRadio>
 				
-				<p:outputLabel value="CPF" for="cpf"/>
-				<p:inputMask id="cpf" mask="99999999999" 
+				<p:outputLabel value="CPF/CNPJ" for="cpfCnpj"/>
+				<p:inputMask id="cpfCnpj" mask="99999999999?999" 
 					value="#{cadastroClienteBean.cliente.documentoReceitaFederal}"/>
 				
 				<p:outputLabel value="E-mail" for="email"/>
