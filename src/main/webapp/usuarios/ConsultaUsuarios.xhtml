@@ -8,7 +8,9 @@
 	<ui:define name="titulo">Consulta usuários</ui:define>
 
 	<ui:define name="corpo">
-		<h:form>
+	
+		<h:form id="frmConsulta">
+		
 			<h1>Consulta usuários</h1>
 			
 			<p:messages autoUpdate="true" closable="true" />
@@ -30,7 +32,7 @@
 				<p:inputText id="nome" size="60" value="#{consultaUsuariosBean.filtro.nome}"/>
 			</p:panelGrid>
 			
-			<p:dataTable id="clientesTable" value="#{consultaUsuariosBean.usuariosFiltrados}" var="usuario"
+			<p:dataTable id="usuariosTable" value="#{consultaUsuariosBean.usuariosFiltrados}" var="usuario"
 				style="margin-top: 20px" emptyMessage="Nenhum usuário encontrado."
 				rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
 				<p:column headerText="Nome" style="width: 600px" >
@@ -43,14 +45,21 @@
 					<p:button outcome="/usuarios/CadastroUsuario" icon="ui-icon-pencil" title="Editar">
 						<f:param name="usuario" value="#{usuario.id}" />
 					</p:button>
-					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoUsuario.show()"/>
+					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoUsuario.show()"
+						process="@this" update=":frmConsulta:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener target="#{consultaUsuariosBean.usuarioSelecionado}"
+							value="#{usuario}" />
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 			
-			<p:confirmDialog header="Exclusão de usuário" message="Tem certeza que deseja excluir o usuário?"
-				widgetVar="confirmacaoExclusaoUsuario">
+			<p:confirmDialog header="Exclusão de usuário" 
+				message="Tem certeza que deseja excluir o usuário #{consultaUsuariosBean.usuarioSelecionado.nome}?"
+				widgetVar="confirmacaoExclusaoUsuario" id="confirmacaoExclusaoDialog">
 				<p:button value="Não" onclick="confirmacaoExclusaoUsuario.hide(); return false;"/>
-				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoUsuario.hide();"/>
+				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoUsuario.hide();"
+					action="#{consultaUsuariosBean.excluir}" process="@this"
+	    			update=":frmConsulta:usuariosTable" />
 			</p:confirmDialog>
 		</h:form>
 	</ui:define>

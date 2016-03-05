@@ -10,6 +10,7 @@ import javax.inject.Named;
 import com.cqi.controls.model.Usuario;
 import com.cqi.controls.repository.Usuarios;
 import com.cqi.controls.repository.filter.UsuarioFilter;
+import com.cqi.controls.util.jsf.FacesUtil;
 
 /**
  * @author cqfb
@@ -28,8 +29,18 @@ public class ConsultaUsuariosBean implements Serializable {
 
 	private List<Usuario> usuariosFiltrados;
 
+	private Usuario usuarioSelecionado;
+
 	public ConsultaUsuariosBean() {
 		filtro = new UsuarioFilter();
+	}
+	
+	public void excluir() {
+		usuarios.remover(usuarioSelecionado);
+		usuariosFiltrados.remove(usuarioSelecionado);
+
+		FacesUtil.addInfoMessage("Usuário " + usuarioSelecionado.getNome() 
+				+ " excluído com sucesso.");
 	}
 
 	public void pesquisar() {
@@ -42,6 +53,14 @@ public class ConsultaUsuariosBean implements Serializable {
 
 	public UsuarioFilter getFiltro() {
 		return filtro;
+	}
+
+	public Usuario getUsuarioSelecionado() {
+		return usuarioSelecionado;
+	}
+
+	public void setUsuarioSelecionado(Usuario usuarioSelecionado) {
+		this.usuarioSelecionado = usuarioSelecionado;
 	}
 
 }

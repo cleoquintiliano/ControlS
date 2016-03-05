@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
@@ -32,6 +33,11 @@ public class Usuario implements Serializable {
 	private String email;
 	private String senha;
 	private List<Grupo> grupos = new ArrayList<>();
+	
+	@PreRemove
+	private void removerGrupos() {
+	   getGrupos().clear();
+	}
 	
 	@Id
 	@GeneratedValue
