@@ -6,7 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.OverridesAttribute;
 import javax.validation.Payload;
+import javax.validation.constraints.Pattern;
 
 
 /**
@@ -19,6 +21,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = {DocumentoFederalValidator.class})
 public @interface DocumentoFederal {
 	
+	@OverridesAttribute(constraint = Pattern.class, name = "message")
 	String message() default "{com.cqi.constraint.validation.DocumentoFederal.message}";
 
     Class<?>[] groups() default {};

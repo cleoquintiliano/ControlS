@@ -16,7 +16,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.cqi.controls.model.Cliente;
-import com.cqi.controls.repository.filter.UsuarioFilter;
+import com.cqi.controls.repository.filter.ClienteFilter;
 import com.cqi.controls.service.NegocioException;
 import com.cqi.controls.util.jpa.Transactional;
 
@@ -61,14 +61,16 @@ public class Clientes implements Serializable {
 	}
 
 	/**
-	 * Metodo verifica se o EMAIL já existe
+	 * Metodo verifica se o documentoReceitaFederal já existe
 	 * 
 	 * @param nome
 	 * @return null
 	 */
 	public Cliente porDocumentoReceitaFederal(String documentoReceitaFederal) {
 		try {
-			return manager.createQuery("from Cliente where upper(documentoReceitaFederal) = :documentoReceitaFederal", Cliente.class)
+			return manager
+					.createQuery("from Cliente where upper(documentoReceitaFederal) = :documentoReceitaFederal",
+							Cliente.class)
 					.setParameter("documentoReceitaFederal", documentoReceitaFederal.toUpperCase()).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -89,13 +91,13 @@ public class Clientes implements Serializable {
 	 * @return criteria com lista de usuários em ordem ascendente (nome)
 	 */
 
-	/*@SuppressWarnings("unchecked")
-	public List<Cliente> filtrados(UsuarioFilter filtro) {
+	@SuppressWarnings("unchecked")
+	public List<Cliente> filtrados(ClienteFilter filtro) {
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(Cliente.class);
 
 		if (StringUtils.isNotBlank(filtro.getDocumentoReceitaFederal())) {
-			criteria.add(Restrictions.eq("documentoReceitaFederal", filtro.getDocumentoReceitaFederal()));
+			criteria.add(Restrictions.ilike("documentoReceitaFederal", filtro.getDocumentoReceitaFederal(), MatchMode.ANYWHERE));
 		}
 
 		if (StringUtils.isNotBlank(filtro.getNome())) {
@@ -103,7 +105,7 @@ public class Clientes implements Serializable {
 		}
 
 		return criteria.addOrder(Order.asc("nome")).list();
-	}*/
+	}
 
 	public Cliente porId(Long id) {
 		return manager.find(Cliente.class, id);

@@ -8,12 +8,17 @@
 	<ui:define name="titulo">Consulta clientes</ui:define>
 
 	<ui:define name="corpo">
-		<h:form>
+	
+		<h:form id="frmConsulta">
+		
 			<h1>Consulta clientes</h1>
+			
+			<p:messages autoUpdate="true" closable="true" />
 			
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
-					<p:commandButton value="Consultar"/>
+					<p:commandButton value="Consultar" action="#{consultaClientesBean.pesquisar}"
+	    				update="frmConsulta"/>
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Novo" outcome="/clientes/CadastroCliente"/>
@@ -23,23 +28,24 @@
 			<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
 				columnClasses="rotulo, campo" >
 				<p:outputLabel value="CPF/CNPJ" for="cpfCnpj"/>
-				<p:inputText id="cpfCnpj" size="20" />
+				<p:inputText id="cpfCnpj" value="#{consultaClientesBean.filtro.documentoReceitaFederal}" 
+					maxlength="18"/>
 				
 				<p:outputLabel value="Nome" for="nome"/>
-				<p:inputText id="nome" size="60" />
+				<p:inputText id="nome" size="60" value="#{consultaClientesBean.filtro.nome}"/>
 			</p:panelGrid>
 			
 			<p:dataTable id="clientesTable" value="#{consultaClientesBean.clientesFiltrados}" var="cliente" 
 				style="margin-top: 20px" emptyMessage="Nenhum cliente encontrado."
 				rows="20" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
 				<p:column headerText="Nome" style="width: 800px" >
-					<h:outputText value="Carlos Alberto de Nobrega"/>
+					<h:outputText value="#{cliente.nome}"/>
 				</p:column>
 				<p:column headerText="Tipo" style="width: 100px" >
-					<h:outputText value="Fisica"/>
+					<h:outputText value="#{cliente.tipo}"/>
 				</p:column>
 				<p:column headerText="CPF/CNPJ">
-					<h:outputText value="045.555.222-22"/>
+					<h:outputText value="#{cliente.documentoReceitaFederal}"/>
 				</p:column>
 				<p:column style="width: 100px; text-align: center" >
 					<p:button icon="ui-icon-pencil" title="Editar"/>
