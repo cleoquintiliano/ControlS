@@ -113,7 +113,7 @@ public class Cliente implements Serializable {
 		this.tipo = tipo;
 	}
 	
-	@NotNull @Size(min = 1)
+	//@NotNull @Size(min = 1)
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	public List<Endereco> getEnderecos() {
 		return enderecos;

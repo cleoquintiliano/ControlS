@@ -18,7 +18,6 @@ public class DocumentoFederalValidator implements ConstraintValidator<DocumentoF
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		boolean retorno = false;
-		System.out.println(value);
 		if (value.length() == 11) {
 			retorno = CNP.isValidCPF(value);
 		} else {

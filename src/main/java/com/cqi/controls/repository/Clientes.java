@@ -15,7 +15,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.cqi.controls.model.Usuario;
+import com.cqi.controls.model.Cliente;
 import com.cqi.controls.repository.filter.UsuarioFilter;
 import com.cqi.controls.service.NegocioException;
 import com.cqi.controls.util.jpa.Transactional;
@@ -24,7 +24,7 @@ import com.cqi.controls.util.jpa.Transactional;
  * @author cqfb
  */
 
-public class Usuarios implements Serializable {
+public class Clientes implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,8 +37,8 @@ public class Usuarios implements Serializable {
 	 * @param usuario
 	 * @return instancia do usuario persistido
 	 */
-	public Usuario guardar(Usuario usuario) {
-		return manager.merge(usuario);
+	public Cliente guardar(Cliente cliente) {
+		return manager.merge(cliente);
 
 	}
 
@@ -50,13 +50,13 @@ public class Usuarios implements Serializable {
 	 * @param usuario
 	 */
 	@Transactional
-	public void remover(Usuario usuario) {
+	public void remover(Cliente cliente) {
 		try {
-			usuario = porId(usuario.getId());
-			manager.remove(usuario);
+			cliente = porId(cliente.getId());
+			manager.remove(cliente);
 			manager.flush();
 		} catch (PersistenceException e) {
-			throw new NegocioException("Usuário não pode ser excluído.");
+			throw new NegocioException("Cliente não pode ser excluído.");
 		}
 	}
 
@@ -66,10 +66,10 @@ public class Usuarios implements Serializable {
 	 * @param nome
 	 * @return null
 	 */
-	public Usuario porEmail(String email) {
+	public Cliente porDocumentoReceitaFederal(String documentoReceitaFederal) {
 		try {
-			return manager.createQuery("from Usuario where upper(email) = :email", Usuario.class)
-					.setParameter("email", email.toUpperCase()).getSingleResult();
+			return manager.createQuery("from Cliente where upper(documentoReceitaFederal) = :documentoReceitaFederal", Cliente.class)
+					.setParameter("documentoReceitaFederal", documentoReceitaFederal.toUpperCase()).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -89,13 +89,13 @@ public class Usuarios implements Serializable {
 	 * @return criteria com lista de usuários em ordem ascendente (nome)
 	 */
 
-	@SuppressWarnings("unchecked")
-	public List<Usuario> filtrados(UsuarioFilter filtro) {
+	/*@SuppressWarnings("unchecked")
+	public List<Cliente> filtrados(UsuarioFilter filtro) {
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(Usuario.class);
+		Criteria criteria = session.createCriteria(Cliente.class);
 
-		if (StringUtils.isNotBlank(filtro.getEmail())) {
-			criteria.add(Restrictions.eq("email", filtro.getEmail()));
+		if (StringUtils.isNotBlank(filtro.getDocumentoReceitaFederal())) {
+			criteria.add(Restrictions.eq("documentoReceitaFederal", filtro.getDocumentoReceitaFederal()));
 		}
 
 		if (StringUtils.isNotBlank(filtro.getNome())) {
@@ -103,10 +103,10 @@ public class Usuarios implements Serializable {
 		}
 
 		return criteria.addOrder(Order.asc("nome")).list();
-	}
+	}*/
 
-	public Usuario porId(Long id) {
-		return manager.find(Usuario.class, id);
+	public Cliente porId(Long id) {
+		return manager.find(Cliente.class, id);
 	}
 
 }

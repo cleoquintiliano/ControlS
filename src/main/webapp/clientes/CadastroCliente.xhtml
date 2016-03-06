@@ -28,7 +28,7 @@
 			<p:toolbarGroup>
 				<p:button value="Novo" outcome="/clientes/CadastroCliente"/>
 				<p:commandButton value="Salvar" id="botaoSalvar" update="msgCliente frm" 
-					action="#{cadastroClienteBean.salvar}" process="inclusaoClientePanel" />
+					action="#{cadastroClienteBean.salvar}" process="@this inclusaoClientePanel" />
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
 				<p:button value="Consultar" outcome="/clientes/ConsultaClientes"/>
