@@ -51,14 +51,21 @@
 					<p:button outcome="/clientes/CadastroCliente" icon="ui-icon-pencil" title="Editar">
 						<f:param name="cliente" value="#{cliente.id}" />
 					</p:button>
-					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoCliente.show()"/>
+					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoCliente.show()"
+						process="@this" update=":frmConsulta:confirmacaoExclusaoDialog" >
+						<f:setPropertyActionListener target="#{consultaClientesBean.clienteSelecionado}"
+							value="#{cliente}" />
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 			
-			<p:confirmDialog header="Exclusão de cliente" message="Tem certeza que deseja excluir o cliente?"
-				widgetVar="confirmacaoExclusaoCliente">
+			<p:confirmDialog header="Exclusão de cliente" 
+				message="Tem certeza que deseja excluir o cliente #{consultaClientesBean.clienteSelecionado.nome}?"
+				widgetVar="confirmacaoExclusaoCliente" id="confirmacaoExclusaoDialog">
 				<p:button value="Não" onclick="confirmacaoExclusaoCliente.hide(); return false;"/>
-				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoCliente.hide();"/>
+				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoCliente.hide();"
+					action="#{consultaClientesBean.excluir}" process="@this"
+	    			update=":frmConsulta:clientesTable"/>
 			</p:confirmDialog>
 		</h:form>
 	</ui:define>
