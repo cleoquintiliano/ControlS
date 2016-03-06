@@ -30,6 +30,13 @@ public class CadastroClienteBean implements Serializable {
 	public CadastroClienteBean() {
 		limpar();
 	}
+	
+	/*public void inicializar() {
+		// if (FacesUtil.isNotPostback()) {
+		listaEnderecos = enderecos.listarEnderecos();
+
+		// }
+	}*/
 
 	private void limpar() {
 		cliente = new Cliente();
@@ -47,12 +54,24 @@ public class CadastroClienteBean implements Serializable {
 		return cliente;
 	}
 
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+		
+		/*if (this.cliente != null){
+		this.endereco = this.usuario.getEndereco();
+	}*/
+	}
+
 	public Endereco getEndereco() {
 		return endereco;
 	}
 
 	public void adicionarEndereco() {
 		cliente.getEnderecos().add(endereco);
+	}
+	
+	public boolean isEditando() {
+		return this.cliente.getId() != null;
 	}
 
 }

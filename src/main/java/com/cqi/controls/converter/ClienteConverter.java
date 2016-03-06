@@ -5,8 +5,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.cqi.controls.model.Usuario;
-import com.cqi.controls.repository.Usuarios;
+import com.cqi.controls.model.Cliente;
+import com.cqi.controls.repository.Clientes;
 import com.cqi.controls.util.cdi.CDIServiceLocator;
 
 /**
@@ -15,23 +15,23 @@ import com.cqi.controls.util.cdi.CDIServiceLocator;
  * implementando os dois métodos desta interface, o getAsObject e o getAsString.
  */
 
-@FacesConverter(forClass = Usuario.class)
-public class UsuarioConverter implements Converter {
+@FacesConverter(forClass = Cliente.class)
+public class ClienteConverter implements Converter {
 
 	//@Inject (não funciona em conversores para essa versão)
-	private Usuarios usuarios;
+	private Clientes clientes;
 	
-	public UsuarioConverter() {
-		usuarios = CDIServiceLocator.getBean(Usuarios.class);
+	public ClienteConverter() {
+		clientes = CDIServiceLocator.getBean(Clientes.class);
 	}
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Usuario retorno = null;
+		Cliente retorno = null;
 		
 		if (value != null) {
 			Long id = new Long(value);
-			retorno = usuarios.porId(id);
+			retorno = clientes.porId(id);
 		}
 		
 		return retorno;
@@ -40,8 +40,8 @@ public class UsuarioConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Usuario usuario = (Usuario) value;
-			return usuario.getId() == null ? null : usuario.getId().toString();
+			Cliente cliente = (Cliente) value;
+			return cliente.getId() == null ? null : cliente.getId().toString();
 		}
 		
 		return "";

@@ -3,15 +3,13 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
     
-	<ui:define name="titulo">Novo cliente</ui:define>
+	<ui:define name="titulo">#{cadastroClienteBean.editando ? 'Edição de cliente' : 'Novo cliente'}</ui:define>
 	
-	
-
 	<ui:define name="corpo">
-		<h1>Novo Cliente</h1>
-		
+	
 		<script>
 		function tratarInclusaoEndereco(args) {
 			if (!args.validationFailed) {
@@ -20,7 +18,18 @@
 		}
 		</script>
 		
-		<h:form id="frm">
+		<f:metadata>
+			<!-- <f:viewParam name="workaround" /> é um workaround para resolver BUG do Mojarra
+			onde o Listener preRenderView é chamado muitas vezes (o nome pode ser qualquer um) 
+			https://java.net/jira/browse/JAVASERVERFACES-2162 -->
+			<!--"viewParam" do omnifaces utilizado, pois o do jsf core faz varias chamadas ao set-->
+			<o:viewParam name="cliente" value="#{cadastroClienteBean.cliente}" />
+    	<!-- 	<f:event listener="#{cadastroClienteBean.inicializar}" type="preRenderView" /> -->
+    	</f:metadata>
+    	
+    	<h:form id="frm">
+    	
+		<h1>#{cadastroClienteBean.editando ? 'Edição de cliente' : 'Novo cliente'}</h1>
 		
 		<p:messages id="msgCliente" autoUpdate="false" closable="true"/>
 		
