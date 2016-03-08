@@ -72,9 +72,17 @@ public class CadastroPedidoBean implements Serializable {
 	public Pedido getPedido() {
 		return pedido;
 	}
+	
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
 
 	public List<Usuario> getVendedores() {
 		return vendedores;
+	}
+	
+	public boolean isEditando() {
+		return this.pedido.getId() != null;
 	}
 
 }
