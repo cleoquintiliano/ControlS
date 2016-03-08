@@ -38,7 +38,6 @@ public class Produtos implements Serializable {
 	 * @return instancia do produto persistido
 	 */
 	public Produto guardar(Produto produto) {
-		//
 		return manager.merge(produto);
 
 	}
