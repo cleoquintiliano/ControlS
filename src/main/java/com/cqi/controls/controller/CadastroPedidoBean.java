@@ -47,6 +47,8 @@ public class CadastroPedidoBean implements Serializable {
 	public void inicializar() {
 		if (FacesUtil.isNotPostback()) {
 			this.vendedores = this.usuarios.vendedores();
+			
+			this.recalcularPedido();
 		}
 	}
 
@@ -59,6 +61,12 @@ public class CadastroPedidoBean implements Serializable {
 		this.pedido = this.cadastroPedidoService.salvar(this.pedido);
 		
 		FacesUtil.addInfoMessage("Pedido salvo com sucesso!");
+	}
+	
+	public void recalcularPedido() {
+		if (this.pedido != null) {
+			this.pedido.recalcularValorTotal();
+		}
 	}
 	
 	public FormaPagamento[] getFormasPagamento() {

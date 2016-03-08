@@ -12,6 +12,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -171,9 +172,13 @@ public class Pedido implements Serializable {
 	public void setEnderecoEntrega(EnderecoEntrega enderecoEntrega) {
 		this.enderecoEntrega = enderecoEntrega;
 	}
+	
 	//“mappedBy” indica quem é o owner desse relacionamento
 	//“orphanRemoval” – caso não tenha relacionamento, será removida do banco de dados
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	//"FetchType.LAZY" quando acessa o objeto não traz todas as dependências. 
+	//Somente quando precisamos do atributo dependente 
+	//é que a pesquisa (select ou JOIN) é feito, economizando memória.
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<ItemPedido> getItens() {
 		return itens;
 	}
@@ -190,6 +195,25 @@ public class Pedido implements Serializable {
 	@Transient //Esta anotação especifica que a propriedade ou campo não é persistente
 	public boolean isExistente() {
 		return !isNovo();
+	}
+	
+	@Transient
+	public BigDecimal getValorSubtotal() {
+		return this.getValorTotal().subtract(this.getValorFrete()).add(this.getValorDesconto());
+	}
+	
+	public void recalcularValorTotal() {
+		BigDecimal total = BigDecimal.ZERO;
+		
+		total = total.add(this.getValorFrete()).subtract(this.getValorDesconto());
+		
+		for (ItemPedido item : this.getItens()) {
+			if (item.getProduto() != null && item.getProduto().getId() != null) {
+				total = total.add(item.getValorTotal());
+			}
+		}
+		
+		this.setValorTotal(total);
 	}
 
 	@Override
