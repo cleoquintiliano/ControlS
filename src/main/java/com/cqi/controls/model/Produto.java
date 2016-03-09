@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.cqi.controls.service.NegocioException;
 import com.cqi.controls.validation.SKU;
 
 /**
@@ -98,6 +99,17 @@ public class Produto implements Serializable {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+	
+	public void baixarEstoque(Integer quantidade) {
+		int novaQuantidade = this.getQuantidadeEstoque() - quantidade;
+		
+		if (novaQuantidade < 0) {
+			throw new NegocioException("Não há disponibilidade no estoque de "
+					+ quantidade + " itens do produto " + this.getSku() + "!");
+		}
+		
+		this.setQuantidadeEstoque(novaQuantidade);
+	}
 
 	@Override
 	public int hashCode() {
@@ -123,5 +135,7 @@ public class Produto implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 
 }
