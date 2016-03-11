@@ -21,3 +21,4 @@ Tecnologias do Projeto
 > SGBD: MySQL 5.5 / Database Design & Modeling: MySQL Workbench 6.3.6  
 > Validação: Especificação > Bean Validation / Implementação > Hibernate Validator
 > Pacote de classes de utilitários Java: Commons Lang 3.1
+> Email: Simple-email 0.2.1 / Apache Velocity 1.7 (Template)
