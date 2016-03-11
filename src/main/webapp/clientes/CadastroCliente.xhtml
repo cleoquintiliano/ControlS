@@ -24,7 +24,7 @@
 			https://java.net/jira/browse/JAVASERVERFACES-2162 -->
 			<!--"viewParam" do omnifaces utilizado, pois o do jsf core faz varias chamadas ao set-->
 			<o:viewParam name="cliente" value="#{cadastroClienteBean.cliente}" />
-    	<!-- 	<f:event listener="#{cadastroClienteBean.inicializar}" type="preRenderView" /> -->
+    		<f:event listener="#{cadastroClienteBean.inicializar}" type="preRenderView" />
     	</f:metadata>
     	
     	<h:form id="frm">
@@ -36,7 +36,7 @@
 		<p:toolbar style="margin-top: 20px">
 			<p:toolbarGroup>
 				<p:button value="Novo" outcome="/clientes/CadastroCliente"/>
-				<p:commandButton value="Salvar" id="botaoSalvar" update="msgCliente frm" 
+				<p:commandButton value="Salvar" id="botaoSalvar" update="msgCliente" 
 					action="#{cadastroClienteBean.salvar}" process="@this inclusaoClientePanel" />
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
@@ -71,36 +71,42 @@
 		</h:panelGroup>
 		
 		<p:commandButton value="Adicionar endereço" onclick="inclusaoEnderecoDialog.show(); return false;"
-			style="margin-top: 20px"/>
+			style="margin-top: 20px" />
 		
-		<p:dataTable id="enderecosTable" value="#{consultaEnderecosBean.enderecosFiltrados}"
+		<p:dataTable id="enderecosTable" value="#{cadastroClienteBean.cliente.enderecos}" var="endereco"
 				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
 				rows="2" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
 				<p:column headerText="Logradouro">
-					<h:outputText value="Rua Florida"/>
+					<h:outputText value="#{endereco.logradouro}"/>
 				</p:column>
 				<p:column headerText="Número" style="width: 100px" >
-					<h:outputText value="1234"/>
+					<h:outputText value="#{endereco.numero}"/>
 				</p:column>
 				<p:column headerText="Complemento" style="width: 200px">
-					<h:outputText value="Sala 456"/>
+					<h:outputText value="#{endereco.complemento}"/>
 				</p:column>
 				<p:column headerText="CEP" style="width: 150px" >
-					<h:outputText value="86040-960"/>
+					<h:outputText value="#{endereco.cep}"/>
 				</p:column>
 				<p:column headerText="Cidade/UF" style="width: 250px">
-					<h:outputText value="Londrina/PR"/>
+					<h:outputText value="#{endereco.cidade}/#{endereco.uf}"/>
 				</p:column>
 				<p:column style="width: 100px; text-align: center" >
 					<p:button icon="ui-icon-pencil" title="Editar"/>
-					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoEndereco.show()"/>
+					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoEndereco.show()"
+						process="@this" update=":frm:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener target="#{cadastroClienteBean.enderecoSelecionado}"
+							value="#{endereco}"/>
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 			
 			<p:confirmDialog header="Exclusão de endereço" message="Tem certeza que deseja excluir o endereço?"
-				widgetVar="confirmacaoExclusaoEndereco">
+				widgetVar="confirmacaoExclusaoEndereco" id="confirmacaoExclusaoDialog">
 				<p:button value="Não" onclick="confirmacaoExclusaoEndereco.hide(); return false;"/>
-				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoEndereco.hide();"/>
+				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoEndereco.hide();"
+					action="#{cadastroClienteBean.removerEndereco}" process="@this"
+	    			update="enderecosTable"/>
 			</p:confirmDialog>
 			
 			<p:dialog header="Inclusão de endereço" widgetVar="inclusaoEnderecoDialog"
@@ -109,28 +115,28 @@
 				<h:panelGroup id="inclusaoEnderecoPanel">
 					<p:messages id="msgEndereco" autoUpdate="false" closable="true"/>
 					<h:panelGrid columns="2">
-						<p:outputLabel value="Logradouro" />
-						<p:inputText size="40" style="margin-left: 20px"
+						<p:outputLabel value="Logradouro" for="logradouro"/>
+						<p:inputText id="logradouro" size="40" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.logradouro}"/>
-						<p:outputLabel value="Número" />
-						<p:inputText size="6" style="margin-left: 20px"
+						<p:outputLabel value="Número" for="numero"/>
+						<p:inputText id="numero" size="6" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.numero}"/>
-						<p:outputLabel value="Complemento" />
-						<p:inputText size="20" style="margin-left: 20px"
+						<p:outputLabel value="Complemento" for="complemento"/>
+						<p:inputText id="complemento" size="20" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.complemento}"/>
-						<p:outputLabel value="CEP" />
-						<p:inputText size="10" style="margin-left: 20px"
+						<p:outputLabel value="CEP" for="cep"/>
+						<p:inputText id="cep" size="10" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.cep}"/>
-						<p:outputLabel value="Cidade" />
+						<p:outputLabel value="Cidade" for="cidade"/>
 						<h:panelGroup>
-						<p:inputText size="20" style="margin-left: 20px"
+						<p:inputText id="cidade" size="20" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.cidade}"/>
-						<p:outputLabel value="UF" style="margin-left: 20px" />
-						<p:inputText size="4" style="margin-left: 20px"
+						<p:outputLabel value="UF" for="uf" style="margin-left: 20px" />
+						<p:inputText id="uf" size="4" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.uf}"/>
 						</h:panelGroup>
 						<h:panelGroup/>
-						<p:commandButton value="Incluir" update="enderecosTable msgEndereco" process="inclusaoEnderecoPanel"
+						<p:commandButton value="Incluir" update="enderecosTable msgEndereco msgCliente" process="@this inclusaoEnderecoPanel"
 						oncomplete="tratarInclusaoEndereco(args)" style="margin-left: 20px" 
 							action="#{cadastroClienteBean.adicionarEndereco}" />
 						

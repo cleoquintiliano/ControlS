@@ -20,7 +20,7 @@ public class CadastroClienteService implements Serializable {
 	private Clientes clientes;
 	
 	/**	
-	 * Metodo que salva apenas se SKU ainda não existe (SKU deve ser único) ou se for uma edição
+	 * Metodo que salva apenas se CPF/CNPJ ainda não existe (CPF/CNPJ deve ser único) ou se for uma edição
 	 * @param produto
 	 * @return 
 	 */

@@ -1,6 +1,8 @@
 package com.cqi.controls.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -23,31 +25,64 @@ public class CadastroClienteBean implements Serializable {
 
 	@Inject
 	private CadastroClienteService cadastroClienteService;
-
-	private Cliente cliente;
+	
 	private Endereco endereco;
-
+	
+	//private Enderecos enderecos;
+	
+	private Cliente cliente;
+	
+	private Endereco enderecoSelecionado;
+	
+	//private List<Endereco> listaEnderecos;
+	
 	public CadastroClienteBean() {
 		limpar();
 	}
 	
-	/*public void inicializar() {
-		// if (FacesUtil.isNotPostback()) {
-		listaEnderecos = enderecos.listarEnderecos();
+	public void inicializar() {
+//		// if (FacesUtil.isNotPostback()) {
+//		if (isEditando()) { // Se estiver editando, a lista de endereços do
+//			// cliente editado é carregada.
+//			this.listaEnderecos = cliente.getEnderecos();
+//		}
 
 		// }
-	}*/
+	}
 
 	private void limpar() {
 		cliente = new Cliente();
+		endereco = new Endereco();
+		enderecoSelecionado = new Endereco();
+		//listaEnderecos = new ArrayList<>(); 
+		
 
 	}
 
 	public void salvar() {
 		this.cliente = cadastroClienteService.salvar(this.cliente);
 		limpar();
-
+		
 		FacesUtil.addInfoMessage("Cliente salvo com sucesso!");
+		
+	}
+	
+	public void adicionarEndereco() {
+		cliente.getEnderecos().add(this.endereco);
+		endereco.setCliente(cliente);
+		FacesUtil.addInfoMessage("Endereço adicionado com sucesso!");
+			
+		this.endereco = new Endereco();
+		
+	}
+	
+	public void removerEndereco() {
+		this.cliente.getEnderecos().remove(enderecoSelecionado);
+		//enderecos.remover(enderecoSelecionado);
+		FacesUtil.addInfoMessage("Endereco excluído com sucesso!");
+			
+		this.enderecoSelecionado = new Endereco();
+		
 	}
 
 	public Cliente getCliente() {
@@ -58,18 +93,26 @@ public class CadastroClienteBean implements Serializable {
 		this.cliente = cliente;
 		
 		/*if (this.cliente != null){
-		this.endereco = this.usuario.getEndereco();
+		this.enderecos = this.usuario.getEndereco();
 	}*/
 	}
 
 	public Endereco getEndereco() {
 		return endereco;
 	}
-
-	public void adicionarEndereco() {
-		cliente.getEnderecos().add(endereco);
-	}
 	
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public Endereco getEnderecoSelecionado() {
+		return enderecoSelecionado;
+	}
+
+	public void setEnderecoSelecionado(Endereco enderecoSelecionado) {
+		this.enderecoSelecionado = enderecoSelecionado;
+	}
+
 	public boolean isEditando() {
 		return this.cliente.getId() != null;
 	}
