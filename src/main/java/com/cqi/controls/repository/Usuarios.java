@@ -63,16 +63,20 @@ public class Usuarios implements Serializable {
 	/**
 	 * Metodo verifica se o EMAIL já existe
 	 * 
-	 * @param nome
-	 * @return null
+	 * @param email
+	 * @return usuario
 	 */
 	public Usuario porEmail(String email) {
+		Usuario usuario = null;
+		
 		try {
 			return manager.createQuery("from Usuario where upper(email) = :email", Usuario.class)
-					.setParameter("email", email.toUpperCase()).getSingleResult();
+					.setParameter("email", email.toLowerCase()).getSingleResult();
 		} catch (NoResultException e) {
-			return null;
+			//nenhum usuario encontrado com o e-mail fornecido
 		}
+		
+		return usuario;
 	}
 
 	/**
