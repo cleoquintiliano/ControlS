@@ -34,8 +34,8 @@ public class Clientes implements Serializable {
 	/**
 	 * Metodo "merge" do EntityManager insere ou atualiza;
 	 * 
-	 * @param usuario
-	 * @return instancia do usuario persistido
+	 * @param cliente
+	 * @return instancia do cliente persistido
 	 */
 	public Cliente guardar(Cliente cliente) {
 		return manager.merge(cliente);
@@ -47,7 +47,7 @@ public class Clientes implements Serializable {
 	 * remoção /"flush" executa pendencias de execução (remove) / em caso de
 	 * erro na persistencia (flush) como FK por exemplo lança NegocioException
 	 * 
-	 * @param usuario
+	 * @param cliente
 	 */
 	@Transactional
 	public void remover(Cliente cliente) {
@@ -88,7 +88,7 @@ public class Clientes implements Serializable {
 	 * necessario pois a list retornada não está tipada
 	 * 
 	 * @param filtro
-	 * @return criteria com lista de usuários em ordem ascendente (nome)
+	 * @return criteria com lista de clientes em ordem ascendente (nome)
 	 */
 
 	@SuppressWarnings("unchecked")

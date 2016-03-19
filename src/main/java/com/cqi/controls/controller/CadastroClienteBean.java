@@ -1,8 +1,6 @@
 package com.cqi.controls.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
