@@ -23,3 +23,4 @@ Tecnologias do Projeto
 > Pacote de classes de utilitários Java: Commons Lang 3.1
 > Email: Simple-email 0.2.1 / Apache Velocity 1.7 (Template)
 > Autenticação e Autorização: Spring Security 3.1.4
+> Reports: JasperReports / Modelagem do relatório (.jrxml): iReport 5.1.0 
