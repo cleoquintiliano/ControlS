@@ -37,7 +37,7 @@
 			<p:toolbarGroup>
 				<p:button value="Novo" outcome="/clientes/CadastroCliente"
 					disabled="#{not seguranca.criarClientePermitido}" />
-				<p:commandButton value="Salvar" id="botaoSalvar" update="msgCliente" 
+				<p:commandButton value="Salvar" id="botaoSalvar" update="msgCliente frm" 
 					action="#{cadastroClienteBean.salvar}" process="@this inclusaoClientePanel" 
 					disabled="#{not seguranca.salvarClientePermitido}" />
 			</p:toolbarGroup>
