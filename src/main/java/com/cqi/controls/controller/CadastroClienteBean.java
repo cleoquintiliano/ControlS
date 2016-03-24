@@ -24,8 +24,10 @@ public class CadastroClienteBean implements Serializable {
 	@Inject
 	private CadastroClienteService cadastroClienteService;
 	
+	@Inject
 	private Endereco endereco;
 	
+	@Inject
 	private Cliente cliente;
 	
 	private Endereco enderecoSelecionado;
@@ -45,7 +47,7 @@ public class CadastroClienteBean implements Serializable {
 
 	public void salvar() {
 		this.cliente = cadastroClienteService.salvar(this.cliente);
-		limpar();
+		//limpar();
 		
 		FacesUtil.addInfoMessage("Cliente salvo com sucesso!");
 	}
@@ -105,5 +107,5 @@ public class CadastroClienteBean implements Serializable {
 	public boolean isEditando() {
 		return this.cliente.getId() != null;
 	}
-
+	
 }

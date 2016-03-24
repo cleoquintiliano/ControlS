@@ -77,8 +77,9 @@
 		</h:panelGroup>
 		
 		<p:commandButton value="Adicionar endereço" oncomplete="inclusaoEnderecoDialog.show(); return false;"
-			update="msgEndereco :frm:inclusaoEnderecoPanel" process="@this" style="margin-top: 20px"
+			update="msgEndereco msgCliente :frm:inclusaoEnderecoPanel" process="@this" style="margin-top: 20px"
 			disabled="#{not seguranca.editarClientePermitido}">
+			<p:resetInput target="inclusaoEnderecoDialog" />
 		</p:commandButton>
 		
 		<p:dataTable id="enderecosTable" value="#{cadastroClienteBean.cliente.enderecos}" var="endereco"
@@ -124,11 +125,11 @@
 			</p:confirmDialog>
 			
 			<p:dialog header="Inclusão de endereço" widgetVar="inclusaoEnderecoDialog"
-				modal="true" resizable="false">
+				modal="true" resizable="false" id="inclusaoEnderecoDialog">
 				<p:ajax event="close" listener="#{cadastroClienteBean.limparEndereco}" 
-					update=":frm:inclusaoEnderecoPanel" />
+					update=":frm:inclusaoEnderecoPanel msgCliente" />
 				<h:panelGroup id="inclusaoEnderecoPanel">
-					<p:messages id="msgEndereco" autoUpdate="false" closable="true" redisplay="false" />
+					<p:messages id="msgEndereco" autoUpdate="false" closable="true" redisplay="false"/>
 					<h:panelGrid columns="2">
 						<p:outputLabel value="Logradouro" for="logradouro"/>
 						<p:inputText id="logradouro" size="40" style="margin-left: 20px"
