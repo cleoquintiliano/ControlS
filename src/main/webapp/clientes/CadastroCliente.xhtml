@@ -24,7 +24,7 @@
 			https://java.net/jira/browse/JAVASERVERFACES-2162 -->
 			<!--"viewParam" do omnifaces utilizado, pois o do jsf core faz varias chamadas ao set-->
 			<o:viewParam name="cliente" value="#{cadastroClienteBean.cliente}" />
-    		<f:event listener="#{cadastroClienteBean.inicializar}" type="preRenderView" />
+    		<!--<f:event listener="#{cadastroClienteBean.inicializar}" type="preRenderView"-->
     	</f:metadata>
     	
     	<h:form id="frm">
@@ -76,8 +76,10 @@
 			</p:panelGrid>
 		</h:panelGroup>
 		
-		<p:commandButton value="Adicionar endereço" onclick="inclusaoEnderecoDialog.show(); return false;"
-			style="margin-top: 20px" disabled="#{not seguranca.editarClientePermitido}"/>
+		<p:commandButton value="Adicionar endereço" oncomplete="inclusaoEnderecoDialog.show(); return false;"
+			update="msgEndereco :frm:inclusaoEnderecoPanel" process="@this" style="margin-top: 20px"
+			disabled="#{not seguranca.editarClientePermitido}">
+		</p:commandButton>
 		
 		<p:dataTable id="enderecosTable" value="#{cadastroClienteBean.cliente.enderecos}" var="endereco"
 				style="margin-top: 10px" emptyMessage="Nenhum endereço encontrado."
@@ -98,8 +100,12 @@
 					<h:outputText value="#{endereco.cidade}/#{endereco.uf}"/>
 				</p:column>
 				<p:column style="width: 100px; text-align: center" >
-					<p:button icon="ui-icon-pencil" title="Editar"
-					disabled="#{not seguranca.editarClientePermitido}" />
+					<p:commandButton icon="ui-icon-pencil" title="Editar" oncomplete="inclusaoEnderecoDialog.show(); return false;"
+						process="@this" update=":frm:inclusaoEnderecoPanel"
+						disabled="#{not seguranca.editarClientePermitido}">
+						<f:setPropertyActionListener target="#{cadastroClienteBean.enderecoSelecionado}"
+							value="#{endereco}"/>
+					</p:commandButton>	
 					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusaoEndereco.show()"
 						process="@this" update=":frm:confirmacaoExclusaoDialog"
 						disabled="#{not seguranca.editarClientePermitido}" >
@@ -114,14 +120,15 @@
 				<p:button value="Não" onclick="confirmacaoExclusaoEndereco.hide(); return false;"/>
 				<p:commandButton value="Sim" oncomplete="confirmacaoExclusaoEndereco.hide();"
 					action="#{cadastroClienteBean.removerEndereco}" process="@this"
-	    			update="enderecosTable"/>
+	    			update=":frm:msgCliente enderecosTable :frm:inclusaoEnderecoPanel"/>
 			</p:confirmDialog>
 			
 			<p:dialog header="Inclusão de endereço" widgetVar="inclusaoEnderecoDialog"
 				modal="true" resizable="false">
-				<!-- id do panelGroup é necessario p/ update pelo commandButton, invocando o messages -->
+				<p:ajax event="close" listener="#{cadastroClienteBean.limparEndereco}" 
+					update=":frm:inclusaoEnderecoPanel" />
 				<h:panelGroup id="inclusaoEnderecoPanel">
-					<p:messages id="msgEndereco" autoUpdate="false" closable="true"/>
+					<p:messages id="msgEndereco" autoUpdate="false" closable="true" redisplay="false" />
 					<h:panelGrid columns="2">
 						<p:outputLabel value="Logradouro" for="logradouro"/>
 						<p:inputText id="logradouro" size="40" style="margin-left: 20px"
@@ -144,8 +151,9 @@
 							value="#{cadastroClienteBean.endereco.uf}"/>
 						</h:panelGroup>
 						<h:panelGroup/>
-						<p:commandButton value="Incluir" update="enderecosTable msgEndereco msgCliente" process="@this inclusaoEnderecoPanel"
-						oncomplete="tratarInclusaoEndereco(args)" style="margin-left: 20px" 
+						<p:commandButton value="Incluir" update="enderecosTable msgEndereco msgCliente :frm:inclusaoEnderecoPanel" 
+							process="@this inclusaoEnderecoPanel"
+							oncomplete="tratarInclusaoEndereco(args)" style="margin-left: 20px" 
 							action="#{cadastroClienteBean.adicionarEndereco}" />
 						
 					</h:panelGrid>

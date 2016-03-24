@@ -26,35 +26,21 @@ public class CadastroClienteBean implements Serializable {
 	
 	private Endereco endereco;
 	
-	//private Enderecos enderecos;
-	
 	private Cliente cliente;
 	
 	private Endereco enderecoSelecionado;
 	
-	//private List<Endereco> listaEnderecos;
-	
 	public CadastroClienteBean() {
 		limpar();
-	}
-	
-	public void inicializar() {
-//		// if (FacesUtil.isNotPostback()) {
-//		if (isEditando()) { // Se estiver editando, a lista de endereços do
-//			// cliente editado é carregada.
-//			this.listaEnderecos = cliente.getEnderecos();
-//		}
-
-		// }
 	}
 
 	private void limpar() {
 		cliente = new Cliente();
+		limparEndereco();
+	}
+	
+	private void limparEndereco() {
 		endereco = new Endereco();
-		enderecoSelecionado = new Endereco();
-		//listaEnderecos = new ArrayList<>(); 
-		
-
 	}
 
 	public void salvar() {
@@ -62,22 +48,26 @@ public class CadastroClienteBean implements Serializable {
 		limpar();
 		
 		FacesUtil.addInfoMessage("Cliente salvo com sucesso!");
-		
 	}
 	
 	public void adicionarEndereco() {
-		cliente.getEnderecos().add(this.endereco);
 		endereco.setCliente(cliente);
-		FacesUtil.addInfoMessage("Endereço adicionado com sucesso!");
-			
-		this.endereco = new Endereco();
 		
+		if (endereco.getId() == null){
+			cliente.getEnderecos().add(this.endereco);
+			FacesUtil.addWarnMessage("Novo endereço associado ao cliente. SALVE PARA COMPLETAR A AÇÃO!");
+		
+		} else {
+			FacesUtil.addWarnMessage("Endereço alterado. SALVE PARA COMPLETAR A ALTERAÇÃO!");
+		}
+		
+		this.endereco = new Endereco();
 	}
 	
 	public void removerEndereco() {
 		this.cliente.getEnderecos().remove(enderecoSelecionado);
-		//enderecos.remover(enderecoSelecionado);
-		FacesUtil.addInfoMessage("Endereco excluído com sucesso!");
+		
+		FacesUtil.addWarnMessage("Endereco excluído. SALVE O CLIENTE PARA COMPLETAR A AÇÃO!");
 			
 		this.enderecoSelecionado = new Endereco();
 		
@@ -109,6 +99,7 @@ public class CadastroClienteBean implements Serializable {
 
 	public void setEnderecoSelecionado(Endereco enderecoSelecionado) {
 		this.enderecoSelecionado = enderecoSelecionado;
+		this.endereco = enderecoSelecionado;
 	}
 
 	public boolean isEditando() {
