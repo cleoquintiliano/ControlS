@@ -45,7 +45,8 @@
 				
 				<p:outputLabel value="E-mail" for="email"/>
 				<p:inputText id="email" size="40" maxlength="40"
-					value="#{cadastroUsuarioBean.usuario.email}"/>
+					value="#{cadastroUsuarioBean.usuario.email}"
+					onkeyup="this.value = this.value.toLowerCase()" />
 				
 				<p:outputLabel value="Senha" for="senha"/>
 				<p:password id="senha" value="#{cadastroUsuarioBean.usuario.senha}"

@@ -72,6 +72,7 @@
 				<p:outputLabel value="E-mail" for="email"/>
 				<p:inputText id="email" size="40" maxlength="255" 
 					value="#{cadastroClienteBean.cliente.email}"
+					onkeyup="this.value = this.value.toLowerCase()"
 					disabled="#{not seguranca.editarClientePermitido}"/>
 			</p:panelGrid>
 		</h:panelGroup>
@@ -127,7 +128,7 @@
 			<p:dialog header="Inclusão de endereço" widgetVar="inclusaoEnderecoDialog"
 				modal="true" resizable="false" id="inclusaoEnderecoDialog">
 				<p:ajax event="close" listener="#{cadastroClienteBean.limparEndereco}" 
-					update=":frm:inclusaoEnderecoPanel msgCliente" />
+					update=":frm:inclusaoEnderecoPanel msgEndereco" />
 				<h:panelGroup id="inclusaoEnderecoPanel">
 					<p:messages id="msgEndereco" autoUpdate="false" closable="true" redisplay="false"/>
 					<h:panelGrid columns="2">
@@ -141,15 +142,16 @@
 						<p:inputText id="complemento" size="20" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.complemento}"/>
 						<p:outputLabel value="CEP" for="cep"/>
-						<p:inputText id="cep" size="10" style="margin-left: 20px"
+						<p:inputMask mask="99999-999" id="cep" size="6" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.cep}"/>
 						<p:outputLabel value="Cidade" for="cidade"/>
 						<h:panelGroup>
-						<p:inputText id="cidade" size="20" style="margin-left: 20px"
+						<p:inputText id="cidade" size="22" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.cidade}"/>
 						<p:outputLabel value="UF" for="uf" style="margin-left: 20px" />
-						<p:inputText id="uf" size="4" style="margin-left: 20px"
-							value="#{cadastroClienteBean.endereco.uf}"/>
+						<p:inputText id="uf" size="2" style="margin-left: 20px" maxlength="2"
+							value="#{cadastroClienteBean.endereco.uf}"
+							onkeyup="this.value = this.value.toUpperCase()"/>
 						</h:panelGroup>
 						<h:panelGroup/>
 						<p:commandButton value="Incluir" update="enderecosTable msgEndereco msgCliente :frm:inclusaoEnderecoPanel" 

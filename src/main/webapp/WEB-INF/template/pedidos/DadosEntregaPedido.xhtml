@@ -31,11 +31,14 @@
         	disabled="#{cadastroPedidoBean.pedido.naoAlteravel}"/>
 
         <p:outputLabel value="Estado" for="entregaEstado" />
-        <p:inputText id="entregaEstado" size="20" value="#{cadastroPedidoBean.pedido.enderecoEntrega.uf}" 
+        <p:inputText id="entregaEstado" size="2" maxlength="2"
+        	value="#{cadastroPedidoBean.pedido.enderecoEntrega.uf}"
+        	onkeyup="this.value = this.value.toUpperCase()" 
         	disabled="#{cadastroPedidoBean.pedido.naoAlteravel}"/>
 
         <p:outputLabel value="CEP" for="entregaCep" />
-        <p:inputText id="entregaCep" size="10" value="#{cadastroPedidoBean.pedido.enderecoEntrega.cep}" 
+        <p:inputMask id="entregaCep" mask="99999-999" size="6" 
+        	value="#{cadastroPedidoBean.pedido.enderecoEntrega.cep}" 
         	disabled="#{cadastroPedidoBean.pedido.naoAlteravel}"/>
 		
 	</p:panelGrid>
