@@ -68,6 +68,16 @@
 				<p:inputMask id="cpfCnpj" mask="99999999999?999" 
 					value="#{cadastroClienteBean.cliente.documentoReceitaFederal}"
 					disabled="#{not seguranca.editarClientePermitido}"/>
+					
+				<p:outputLabel value="Telefone" for="telefone"/>
+				<p:inputMask id="telefone" mask="(99) 9999-9999? x9999" 
+					value="#{cadastroClienteBean.cliente.telefone}"
+					disabled="#{not seguranca.editarClientePermitido}"/>
+					
+				<p:outputLabel value="Celular" for="celular"/>
+				<p:inputMask id="celular" mask="(99) 9999-9999"  
+					value="#{cadastroClienteBean.cliente.celular}"
+					disabled="#{not seguranca.editarClientePermitido}"/>
 				
 				<p:outputLabel value="E-mail" for="email"/>
 				<p:inputText id="email" size="40" maxlength="255" 
@@ -79,7 +89,7 @@
 		
 		<p:commandButton value="Adicionar endereço" oncomplete="inclusaoEnderecoDialog.show(); return false;"
 			update="msgEndereco msgCliente :frm:inclusaoEnderecoPanel" process="@this" style="margin-top: 20px"
-			disabled="#{not seguranca.editarClientePermitido}">
+			disabled="#{cadastroClienteBean.cliente.novo or not seguranca.editarClientePermitido}">
 			<p:resetInput target="inclusaoEnderecoDialog" />
 		</p:commandButton>
 		
@@ -138,6 +148,9 @@
 						<p:outputLabel value="Número" for="numero"/>
 						<p:inputText id="numero" size="6" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.numero}"/>
+						<p:outputLabel value="Bairro" for="bairro"/>
+						<p:inputText id="bairro" size="40" style="margin-left: 20px"
+							value="#{cadastroClienteBean.endereco.bairro}"/>
 						<p:outputLabel value="Complemento" for="complemento"/>
 						<p:inputText id="complemento" size="20" style="margin-left: 20px"
 							value="#{cadastroClienteBean.endereco.complemento}"/>
