@@ -10,8 +10,10 @@
 			value="#{cadastroPedidoBean.pedido.dataEntrega}" 
 			disabled="#{cadastroPedidoBean.pedido.naoAlteravel}" />
 		
-		<p:spacer />
-		<p:spacer />
+		<p:outputLabel value="Bairro" for="entregaBairro" />
+        <p:inputText id="entregaBairro" size="50" 
+        	value="#{cadastroPedidoBean.pedido.enderecoEntrega.bairro}"
+        	disabled="#{cadastroPedidoBean.pedido.naoAlteravel}" />
 	
         <p:outputLabel value="Logradouro" for="entregaLogradouro" />
         <p:inputText id="entregaLogradouro" size="50" 

@@ -192,7 +192,7 @@ public class Pedido implements Serializable {
 		return getId() == null;
 	}
 	
-	@Transient //Esta anotação especifica que a propriedade ou campo não é persistente
+	@Transient 
 	public boolean isExistente() {
 		return !isNovo();
 	}

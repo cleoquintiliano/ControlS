@@ -19,6 +19,7 @@ public class EnderecoEntrega implements Serializable {
 
 	private String logradouro;
 	private String numero;
+	private String bairro;
 	private String complemento;
 	private String cidade;
 	private String uf;
@@ -44,6 +45,16 @@ public class EnderecoEntrega implements Serializable {
 		this.numero = numero;
 	}
 	
+	@NotBlank @Size(max = 150)
+	@Column(name = "entrega_bairro", nullable = false, length = 150)
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
 	@Size(max = 150)
 	@Column(name = "entrega_complemento", length = 150)
 	public String getComplemento() {
